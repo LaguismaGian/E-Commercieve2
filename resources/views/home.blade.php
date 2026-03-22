@@ -17,14 +17,37 @@
     <!-- Navigation -->
     <nav class="bg-white shadow-md flex justify-between items-center px-6 py-3">
         <div class="flex space-x-4">
-            <a href="/" class="text-gray-800 font-semibold hover:text-orange-500">Home</a>.
+            <a href="/" class="text-gray-800 font-semibold hover:text-orange-500">Home</a>
             <a href="/about" class="text-gray-800 font-semibold hover:text-orange-500">About</a>
             <a href="/shop" class="text-gray-800 font-semibold hover:text-orange-500">Shop</a>
-            
             <a href="/contact" class="text-gray-800 font-semibold hover:text-orange-500">Contact</a>
         </div>
-        <a href="/login" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 font-semibold">Sign In</a>
+        
+        <!-- Show different buttons based on login status -->
+        @auth
+            <div class="flex items-center space-x-4">
+                <span class="text-gray-700">Welcome, {{ Auth::user()->name }}! 👋</span>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 font-semibold">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        @else
+            <a href="/login" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 font-semibold">Sign In</a>
+        @endauth
     </nav>
+
+    <!-- Welcome Message for Logged-in Users -->
+    @auth
+    <div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 mx-6 mt-4 rounded-lg">
+        <p class="text-lg">
+            🎉 Welcome to Candle Glow Shop, <strong>{{ Auth::user()->name }}</strong>! 
+            We're so glad to have you here. ✨
+        </p>
+    </div>
+    @endauth
 
     <!-- Products Section -->
     <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
