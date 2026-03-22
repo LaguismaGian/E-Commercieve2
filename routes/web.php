@@ -21,3 +21,13 @@ Route::get('/contact', function () {
 Route::get('/shop', function () {
     return view('shop');
 })->name('shop');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', function () {
+        return view('profile');
+    })->name('profile');
+});
+
+Route::get('/user/confirm-password', function () {
+    return view('auth.confirm-password');
+})->middleware('auth')->name('password.confirm');

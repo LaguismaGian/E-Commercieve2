@@ -147,13 +147,14 @@ return [
         Features::registration(),
         Features::resetPasswords(),
         Features::emailVerification(),
-        // Features::updateProfileInformation(),
-        // Features::updatePasswords(),
-        // Features::twoFactorAuthentication([
-        //     'confirm' => true,
-        //     'confirmPassword' => true,
-        //     // 'window' => 0,
-        // ]),
+        Features::updateProfileInformation(),
+        Features::updatePasswords(),
+        //Features::confirmPasswords(),
+        Features::twoFactorAuthentication([
+            'confirm' => false,
+            'confirmPassword' => false,
+            // 'window' => 0,
+        ]),
     ],
 
 ];
