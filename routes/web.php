@@ -18,10 +18,12 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-Route::get('/shop', function () {
-    return view('shop');
-})->name('shop');
+use App\Models\Product;
 
+Route::get('/shop', function () {
+    $products = Product::all(); // Get all products from database
+    return view('shop', compact('products'));
+})->name('shop');
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', function () {
         return view('profile');
@@ -31,3 +33,11 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/user/confirm-password', function () {
     return view('auth.confirm-password');
 })->middleware('auth')->name('password.confirm');
+
+use App\Http\Controllers\Admin\ProductController;
+
+// Admin routes (protected by auth and admin middleware)
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('products', ProductController::class);
+});
+

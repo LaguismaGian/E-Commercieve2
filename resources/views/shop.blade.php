@@ -21,19 +21,17 @@
             <a href="/about" class="text-gray-800 font-semibold hover:text-orange-500">About</a>
             <a href="/shop" class="text-gray-800 font-semibold hover:text-orange-500">Shop</a>
             <a href="/contact" class="text-gray-800 font-semibold hover:text-orange-500">Contact</a>
+            <a href="/cart" class="text-gray-800 font-semibold hover:text-orange-500">Cart</a>
         </div>
         
         <!-- ========== AUTHENTICATION LOGIC ========== -->
-        <!-- Shows different buttons based on login status -->
         @auth
             <div class="flex items-center space-x-4">
-                <!-- Profile button - links to user profile page -->
+                <a href="/cart" class="bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600">🛒 Cart</a>
                 <a href="/profile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 font-semibold transition duration-300">
                     👤 My Profile
                 </a>
-                <!-- Welcome message with user's name -->
                 <span class="text-gray-700">Welcome, {{ Auth::user()->name }}! 👋</span>
-                <!-- Logout form -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 font-semibold">
@@ -42,7 +40,6 @@
                 </form>
             </div>
         @else
-            <!-- Show Sign In button for guests (not logged in) -->
             <a href="/login" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 font-semibold">Sign In</a>
         @endauth
         <!-- ========== END AUTHENTICATION LOGIC ========== -->
@@ -58,20 +55,19 @@
     </div>
     @endauth
 
-    <!-- Shop Products - This will be dynamic when you add products to database -->
+    <!-- Shop Products - Display products from database -->
     <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-        <!-- ========== PRODUCTS FROM DATABASE WILL GO HERE ========== -->
-        @forelse($products ?? [] as $product)
+        @forelse($products as $product)
             <div class="bg-white rounded-lg shadow-md text-center p-4 hover:shadow-lg transition duration-300">
                 <!-- Product Image -->
                 @if($product->image)
                     <img src="{{ asset('storage/' . $product->image) }}" 
                          alt="{{ $product->name }}" 
-                         class="w-full rounded-md h-48 object-cover">
+                         class="w-full h-48 object-cover rounded-md">
                 @else
-                    <img src="https://via.placeholder.com/220x220.png?text={{ urlencode($product->name) }}" 
-                         alt="{{ $product->name }}" 
-                         class="w-full rounded-md">
+                    <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-4xl">
+                        🕯️
+                    </div>
                 @endif
                 
                 <!-- Product Name -->
@@ -80,49 +76,43 @@
                 <!-- Product Description -->
                 <p class="text-gray-600 mt-1 text-sm">{{ Str::limit($product->description, 60) }}</p>
                 
+                <!-- Product Category -->
+                @if($product->category)
+                    <p class="text-gray-400 text-xs mt-1">{{ $product->category }}</p>
+                @endif
+                
                 <!-- Product Price -->
-                <span class="text-orange-500 font-semibold mt-2 block">${{ number_format($product->price, 2) }}</span>
+                <span class="text-orange-500 font-semibold mt-2 block text-xl">${{ number_format($product->price, 2) }}</span>
                 
                 <!-- Stock Status -->
                 @if($product->stock > 0)
-                    <p class="text-green-500 text-xs mt-1">In Stock: {{ $product->stock }}</p>
+                    <p class="text-green-500 text-xs mt-1">✓ In Stock ({{ $product->stock }} available)</p>
                 @else
-                    <p class="text-red-500 text-xs mt-1">Out of Stock</p>
+                    <p class="text-red-500 text-xs mt-1">✗ Out of Stock</p>
                 @endif
                 
-                <!-- Buy Now Button -->
-                <a href="#" 
-                   class="inline-block mt-3 px-4 py-2 {{ $product->stock > 0 ? 'bg-orange-500 hover:bg-orange-600' : 'bg-gray-400 cursor-not-allowed' }} text-white rounded font-semibold transition duration-300">
-                    {{ $product->stock > 0 ? 'Buy Now' : 'Out of Stock' }}
-                </a>
-            </div>
-        @empty
-            <!-- Show this message if no products exist yet -->
-            <div class="col-span-full text-center py-12">
-                <p class="text-gray-500 text-lg">No products available yet. Check back soon!</p>
+                <!-- Add to Cart Button -->
                 @auth
-                    @if(Auth::user()->isAdmin())
-                        <a href="{{ route('admin.products.create') }}" class="inline-block mt-4 bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600">
-                            + Add Your First Product
-                        </a>
-                    @endif
+                    <form action="#" method="POST">
+                        @csrf
+                        <button type="submit" 
+                                class="inline-block mt-3 px-4 py-2 {{ $product->stock > 0 ? 'bg-orange-500 hover:bg-orange-600' : 'bg-gray-400 cursor-not-allowed' }} text-white rounded font-semibold transition duration-300 w-full"
+                                {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                            {{ $product->stock > 0 ? '🛒 Add to Cart' : 'Out of Stock' }}
+                        </button>
+                    </form>
+                @else
+                    <a href="/login" class="inline-block mt-3 px-4 py-2 bg-gray-500 text-white rounded font-semibold w-full text-center">
+                        Login to Buy
+                    </a>
                 @endauth
             </div>
-        @endforelse
-        <!-- ========== END PRODUCTS SECTION ========== -->
-    </section>
-
-    <!-- Admin Quick Link (only visible to admin users) -->
-    @auth
-        @if(Auth::user()->isAdmin())
-            <div class="text-center mt-4">
-                <a href="{{ route('admin.products.index') }}" 
-                   class="inline-block bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 text-sm">
-                    🔧 Admin: Manage Products
-                </a>
+        @empty
+            <div class="col-span-full text-center py-12">
+                <p class="text-gray-500 text-lg">No products available yet. Check back soon!</p>
             </div>
-        @endif
-    @endauth
+        @endforelse
+    </section>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white text-center py-4 mt-6">
