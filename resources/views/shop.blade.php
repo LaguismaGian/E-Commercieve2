@@ -8,8 +8,6 @@
 </head>
 <body class="bg-gray-50 font-sans">
 
- 
-
     <!-- Header -->
     <header class="bg-orange-400 text-white text-center py-6">
         <h1 class="text-3xl font-bold">Shop Candles</h1>
@@ -28,6 +26,12 @@
         
         @auth
             <div class="flex items-center space-x-4">
+                <!-- Admin Panel Button in Navigation -->
+                @if(Auth::user()->isAdmin())
+                    <a href="{{ route('admin.products.index') }}" class="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700 text-sm">
+                        📋 Manage Products
+                    </a>
+                @endif
                 <a href="/profile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 font-semibold">
                     👤 My Profile
                 </a>
@@ -52,6 +56,22 @@
             Ready to find your next favorite candle? ✨
         </p>
     </div>
+    @endauth
+
+    <!-- Admin Quick Actions (only visible to admin) -->
+    @auth
+        @if(Auth::user()->isAdmin())
+            <div class="flex justify-center gap-4 mt-4">
+                <a href="{{ route('admin.products.create') }}" 
+                   class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 font-semibold shadow-md">
+                    ➕ Add New Product
+                </a>
+                <a href="{{ route('admin.products.index') }}" 
+                   class="inline-block bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 font-semibold shadow-md">
+                    📋 View All Products
+                </a>
+            </div>
+        @endif
     @endauth
 
     <!-- Shop Products -->
@@ -92,18 +112,11 @@
             <div class="col-span-full text-center py-12">
                 <p class="text-gray-500 text-lg">No products available yet. Check back soon!</p>
                 @auth
-                    <form action="#" method="POST">
-                        @csrf
-                        <button type="submit" 
-                                class="inline-block mt-3 px-4 py-2 {{ $product->stock > 0 ? 'bg-orange-500 hover:bg-orange-600' : 'bg-gray-400 cursor-not-allowed' }} text-white rounded font-semibold transition duration-300 w-full"
-                                {{ $product->stock <= 0 ? 'disabled' : '' }}>
-                            {{ $product->stock > 0 ? '🛒 Add to Cart' : 'Out of Stock' }}
-                        </button>
-                    </form>
-                @else
-                    <a href="/login" class="inline-block mt-3 px-4 py-2 bg-gray-500 text-white rounded font-semibold w-full text-center">
-                        Login to Buy
-                    </a>
+                    @if(Auth::user()->isAdmin())
+                        <a href="{{ route('admin.products.create') }}" class="inline-block mt-4 bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600">
+                            + Add Your First Product
+                        </a>
+                    @endif
                 @endauth
             </div>
         @endforelse
