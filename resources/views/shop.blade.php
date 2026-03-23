@@ -23,6 +23,7 @@
             <a href="/about" class="text-gray-800 font-semibold hover:text-orange-500">About</a>
             <a href="/shop" class="text-gray-800 font-semibold hover:text-orange-500">Shop</a>
             <a href="/contact" class="text-gray-800 font-semibold hover:text-orange-500">Contact</a>
+            <a href="/cart" class="text-gray-800 font-semibold hover:text-orange-500">Cart</a>
         </div>
         
         @auth
@@ -60,7 +61,7 @@
                 @if($product->image)
                     <img src="{{ asset('storage/' . $product->image) }}" 
                          alt="{{ $product->name }}" 
-                         class="w-full rounded-md h-48 object-cover">
+                         class="w-full h-48 object-cover rounded-md">
                 @else
                     <div class="w-full h-48 bg-gray-200 rounded-md flex items-center justify-center text-4xl">
                         🕯️
@@ -91,11 +92,18 @@
             <div class="col-span-full text-center py-12">
                 <p class="text-gray-500 text-lg">No products available yet. Check back soon!</p>
                 @auth
-                    @if(Auth::user()->isAdmin())
-                        <a href="{{ route('admin.products.create') }}" class="inline-block mt-4 bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600">
-                            + Add Your First Product
-                        </a>
-                    @endif
+                    <form action="#" method="POST">
+                        @csrf
+                        <button type="submit" 
+                                class="inline-block mt-3 px-4 py-2 {{ $product->stock > 0 ? 'bg-orange-500 hover:bg-orange-600' : 'bg-gray-400 cursor-not-allowed' }} text-white rounded font-semibold transition duration-300 w-full"
+                                {{ $product->stock <= 0 ? 'disabled' : '' }}>
+                            {{ $product->stock > 0 ? '🛒 Add to Cart' : 'Out of Stock' }}
+                        </button>
+                    </form>
+                @else
+                    <a href="/login" class="inline-block mt-3 px-4 py-2 bg-gray-500 text-white rounded font-semibold w-full text-center">
+                        Login to Buy
+                    </a>
                 @endauth
             </div>
         @endforelse
