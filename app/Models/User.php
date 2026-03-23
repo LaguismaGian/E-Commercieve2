@@ -37,6 +37,11 @@ class User extends Authenticatable
         'two_factor_confirmed_at' => 'datetime', // ← ADD THIS
     ];
 
+     public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
     // A user can have many orders
     public function orders()
     {
