@@ -26,6 +26,13 @@
         <!-- Show different buttons based on login status -->
         @auth
             <div class="flex items-center space-x-4">
+                <!-- ========== ADDED PROFILE BUTTON ========== -->
+                <!-- This button links to the user's profile page where they can manage account settings and 2FA -->
+                <a href="/profile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 font-semibold transition duration-300">
+                    👤 My Profile
+                </a>
+                <!-- ========== END OF PROFILE BUTTON ========== -->
+                
                 <span class="text-gray-700">Welcome, {{ Auth::user()->name }}! 👋</span>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -91,5 +98,3 @@
 
 </body>
 </html>
-
-    
