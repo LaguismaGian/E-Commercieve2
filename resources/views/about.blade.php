@@ -8,14 +8,8 @@
 </head>
 <body class="bg-gray-50 font-sans">
 
-    <!-- Header -->
-    <header class="bg-orange-400 text-white text-center py-6">
-        <h1 class="text-3xl font-bold">About Candle Glow Shop</h1>
-        <p class="mt-2 text-lg">Handmade candles for every mood</p>
-    </header>
-
     <!-- Navigation - UPDATED with authentication logic -->
-    <nav class="bg-white shadow-md flex justify-between items-center px-6 py-3">
+    <nav class="bg-transparent shadow-md flex justify-between items-center px-6 py-3">
         <div class="flex space-x-4">
             <a href="/" class="text-gray-800 font-semibold hover:text-orange-500">Home</a>
             <a href="/about" class="text-gray-800 font-semibold hover:text-orange-500">About</a>
