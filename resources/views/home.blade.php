@@ -1,62 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Candle Glow Shop</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 font-sans">
+@extends('layouts.app')
 
-    <!-- Header -->
-    <header class="bg-orange-400 text-white text-center py-6">
-        <h1 class="text-3xl font-bold">Candle Glow Shop</h1>
-        <p class="mt-2 text-lg">Handmade candles for every mood</p>
-    </header>
+@section('title', 'Candle Glow Shop')
+@section('header', 'Candle Glow Shop')
+@section('subheader', 'Handmade candles for every mood')
 
-    <!-- Navigation -->
-    <nav class="bg-white shadow-md flex justify-between items-center px-6 py-3">
-        <div class="flex space-x-4">
-            <a href="/" class="text-gray-800 font-semibold hover:text-orange-500">Home</a>
-            <a href="/about" class="text-gray-800 font-semibold hover:text-orange-500">About</a>
-            <a href="/shop" class="text-gray-800 font-semibold hover:text-orange-500">Shop</a>
-            <a href="/contact" class="text-gray-800 font-semibold hover:text-orange-500">Contact</a>
-        </div>
-        
-        <!-- Show different buttons based on login status -->
-        @auth
-            <div class="flex items-center space-x-4">
-                <!-- ========== ADDED PROFILE BUTTON ========== -->
-                <!-- This button links to the user's profile page where they can manage account settings and 2FA -->
-                <a href="/profile" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 font-semibold transition duration-300">
-                    👤 My Profile
-                </a>
-                <!-- ========== END OF PROFILE BUTTON ========== -->
-                
-                <span class="text-gray-700">Welcome, {{ Auth::user()->name }}! 👋</span>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 font-semibold">
-                        Logout
-                    </button>
-                </form>
-            </div>
-        @else
-            <a href="/login" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 font-semibold">Sign In</a>
-        @endauth
-    </nav>
-
-    <!-- Welcome Message for Logged-in Users -->
+@section('welcome_message')
     @auth
-    <div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 mx-6 mt-4 rounded-lg">
-        <p class="text-lg">
-            🎉 Welcome to Candle Glow Shop, <strong>{{ Auth::user()->name }}</strong>! 
-            We're so glad to have you here. ✨
-        </p>
-    </div>
+        🎉 Welcome to Candle Glow Shop, <strong>{{ Auth::user()->name }}</strong>! 
+        We're so glad to have you here. ✨
+    @endauth
+@endsection
+
+@section('content')
+    <!-- Admin Quick Actions (only visible to admin) -->
+    @auth
+        @if(Auth::user()->isAdmin())
+            <div class="flex justify-center gap-4 mt-4">
+                <a href="{{ route('admin.products.create') }}" 
+                   class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 font-semibold shadow-md">
+                    ➕ Add New Product
+                </a>
+                <a href="{{ route('admin.products.index') }}" 
+                   class="inline-block bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 font-semibold shadow-md">
+                    📋 View All Products
+                </a>
+            </div>
+        @endif
     @endauth
 
-    <!-- Products Section -->
+    <!-- Products Section - Static placeholder products -->
     <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
         <div class="bg-white rounded-lg shadow-md text-center p-4">
             <img src="https://via.placeholder.com/220x220.png?text=Candle+1" alt="Vanilla Delight" class="w-full rounded-md">
@@ -90,11 +62,4 @@
             <a href="#" class="inline-block mt-3 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 font-semibold">Buy Now</a>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white text-center py-4 mt-6">
-        &copy; 2026 Candle Glow Shop | All Rights Reserved
-    </footer>
-
-</body>
-</html>
+@endsection
