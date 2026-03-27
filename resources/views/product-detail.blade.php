@@ -3,44 +3,51 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>About | Daily Essentials</title>
+    <title>Product | Daily Essentials</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
-           
-           /* ── for the navigation ── */
-           .nav-link { transition: color 0.2s; }
-           .nav-link:hover { color: #F47953; }
-           .nav-link.active { color: #F47953; }
+        .nav-link { transition: color 0.2s; }
+        .nav-link:hover { color: #F47953; }
+        .nav-link.active { color: #F47953; }
+
+        /* ── Hover effect to show cart ── */
+        .product-card .cart-badge { opacity: 0; transition: opacity 0.25s; }
+        .product-card:hover .cart-badge { opacity: 1; }
+        
+        /* Category button active state */
+        .category-btn.active { 
+            color: #F47953; 
+            font-weight: 700;
+            border-left: 3px solid #F47953;
+            padding-left: 12px;
+        }
     </style>
-     
 </head>
 
-     
-<body class="font-sans bg-white text-gray-900 antialiased">
-
+<body class="font-sans bg-white text-gray-900 antialiased" x-data="{ currentCategory: 'All' }">
 
     {{-- ════════════════════════════════════════════
-         NAVBAR
+         NAVBAR 
     ════════════════════════════════════════════ --}}
     <header class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    
-            {{-- Logo --}}
+
             <div class="flex items-center gap-3">
-                <img src="{{ asset('images/logo.png') }}" alt="Hero Image" class="w-10 h-10 flex items-center justify-center">
+                <img src="{{ asset('images/logo.png') }}" alt="Daily Essentials Logo" class="w-10 h-10">
                 <span class="font-serif font-bold text-lg tracking-tight">Daily Essentials</span>
             </div>
-    
-            {{-- Nav links --}}
+
             <nav class="hidden md:flex items-center gap-8">
-                <a href="/"    class="nav-link text-sm font-medium"                            >Home</a>
-                <a href="/about"   class="nav-link text-sm font-medium text-gray-700"        >About</a>
-                <a href="/shop"    class="nav-link text-sm font-medium text-gray-700" >Shop</a>
-                <a href="/contact" class="nav-link active text-sm font-medium text-gray-700"        >Contact</a>
-            </nav>  
-    
+                <a href="/" class="nav-link text-sm font-medium text-gray-700">Home</a>
+                <a href="/about" class="nav-link text-sm font-medium text-gray-700">About</a>
+                <a href="/shop" class="nav-link active text-sm font-medium">Shop</a>
+                <a href="/contact" class="nav-link text-sm font-medium text-gray-700">Contact</a>
+            </nav>
+
             {{-- Icons--}}
             <div class="flex items-center gap-4">
 
@@ -84,77 +91,115 @@
         </div>
     </header>
 
-    <!-- Contact Form -->
-    <section class="max-w-4xl mx-auto my-12 p-6 bg-white rounded shadow-md">
-        <h2 class="text-2xl font-bold mb-6">Get in Touch</h2>
-        
-        <!-- Display success message if any -->
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
-        
-        <!-- Contact form - action will be added later when you create the controller -->
-        <form action="" method="POST" class="space-y-4">   
-                @csrf
-            
-            <div>
-                <label class="block text-gray-700 mb-1" for="name">Name</label>
-                <input type="text" 
-                       id="name" 
-                       name="name" 
-                       placeholder="Your Name" 
-                       value="{{ old('name') }}"
-                       class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
-                       required>
-                @error('name')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-            
-            <div>
-                <label class="block text-gray-700 mb-1" for="email">Email</label>
-                <!-- Pre-fill email if user is logged in -->
-                <input type="email" 
-                       id="email" 
-                       name="email" 
-                       placeholder="Your Email" 
-                       value="{{ Auth::user()->email ?? old('email') }}"
-                       class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
-                       required>
-                @error('email')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-            
-            <div>
-                <label class="block text-gray-700 mb-1" for="message">Message</label>
-                <textarea id="message" 
-                          name="message" 
-                          placeholder="Your Message" 
-                          rows="5" 
-                          class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
-                          required>{{ old('message') }}</textarea>
-                @error('message')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-            
-            <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 font-semibold transition duration-300">
-                Send Message
-            </button>
-        </form>
 
-        <div class="mt-8 text-gray-700">
-            <p class="font-semibold">Or contact us at:</p>
-            <p>📧 Email: info@candleglowshop.com</p>
-            <p>📞 Phone: +63 912 345 6789</p>
-            <p>📍 Address: 123 Candle Street, Manila, Philippines</p>
-        </div>
-    </section>
-
+    {{-- Product Details --}}
+    <main class="max-w-7xl mx-auto px-6 py-12" x-data="{ 
+        mainImage: '{{ asset($product['image']) }}',
+        quantity: 1,
+        selectedScent: null,
+        isFavorite: false
+    }">
+        <div class="flex flex-col lg:flex-row gap-12">
+            
+            <div class="w-full lg:w-1/2 space-y-4">
+                <div class="relative bg-gray-50 rounded-3xl overflow-hidden aspect-square flex items-center justify-center border border-gray-100">
+                    @if($product['on_sale'])
+                        <span class="absolute top-6 left-6 bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-sm border border-red-100">SALE</span>
+                    @endif
+                    <img :src="mainImage" class="w-full h-full object-cover transition-all duration-500">
+                </div>
     
+                <div class="flex gap-4">
+                    <button @click="mainImage = '{{ asset($product['image']) }}'" class="w-24 h-24 rounded-2xl overflow-hidden border-2 border-orange-500">
+                        <img src="{{ asset($product['image']) }}" class="w-full h-full object-cover">
+                    </button>
+                    </div>
+            </div>
+    
+            <div class="w-full lg:w-1/2 space-y-6">
+                <div>
+                    <p class="text-[11px] text-orange-500 font-bold uppercase tracking-widest mb-2">{{ $product['category'] }}</p>
+                    <h1 class="font-serif text-4xl font-bold text-gray-900">{{ $product['name'] }}</h1>
+                </div>
+    
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl font-bold text-red-600">{{ $product['price'] }}</span>
+                    @if($product['old_price'])
+                        <span class="text-xl text-gray-400 line-through">{{ $product['old_price'] }}</span>
+                    @endif
+                </div>
+    
+                <hr class="border-gray-100">
+
+               {{-- Array for photos of scents --}} 
+               @php
+                $scents = [
+                    ['name' => 'Rose',          'image' => 'rose.jpg'],
+                    ['name' => 'Baby powder',   'image' => 'baby powder.jpg'],
+                    ['name' => 'Strawberry',    'image' => 'strawberry2.jpg'],
+                    ['name' => 'Pumpkin Spice', 'image' => 'pumpkin spice.jpg'],
+                    ['name' => 'Fresh Bamboo',  'image' => 'fresh bamboo.jpg'],
+                    ['name' => 'Watermelon',    'image' => 'watermelon.jpg'],
+                    ['name' => 'Orange',        'image' => 'orange.jpg'],
+                    ['name' => 'Vanilla',       'image' => 'vanilla.jpg'],
+                    ['name' => 'Marriot',       'image' => 'marriot.jpg'],
+                    ['name' => 'Chocolate',     'image' => 'chocolate.jpg'],
+                    ['name' => 'Lavender',      'image' => 'lavender.jpg'],
+                    ['name' => 'Coffee',        'image' => 'coffee.jpg'],
+                ];
+                @endphp
+                
+
+                {{-- Scents photo --}}
+                <div>
+                    <h3 class="text-sm font-bold text-gray-900 mb-4">Select Scent</h3>
+                    <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-x-3 gap-y-6">
+                        @foreach($scents as $scent)
+                            <div class="flex flex-col items-center group">
+                                <button @click="selectedScent = '{{ $scent['name'] }}'"
+                                        type="button"
+                                        class="w-12 h-12 rounded-full border-2 transition-all hover:scale-110 overflow-hidden mb-2 shadow-sm"
+                                        :class="selectedScent === '{{ $scent['name'] }}' ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-200'">
+                                    <img src="{{ asset('images/' . $scent['image']) }}" 
+                                         alt="{{ $scent['name'] }}" 
+                                         class="w-full h-full object-cover">
+                                </button>
+                                
+                                <span class="text-[10px] uppercase tracking-wider font-medium text-center leading-tight transition-colors"
+                                      :class="selectedScent === '{{ $scent['name'] }}' ? 'text-orange-600 font-bold' : 'text-gray-500'">
+                                    {{ $scent['name'] }}
+                                </span>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                
+                {{-- Quantity Button --}}
+                <div class="relative flex flex-col sm:flex-row items-center gap-4 pt-6">
+
+                    <div class="flex items-center border border-gray-200 rounded-full px-2 py-1 bg-gray-50">
+                        <button @click="if(quantity > 1) quantity--" class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-black">-</button>
+                        <span class="w-12 text-center font-bold" x-text="quantity"></span>
+                        <button @click="quantity++" class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-black">+</button>
+                    </div>
+    
+                    <button class="flex-1 bg-orange-600 text-white font-bold py-4 rounded-full hover:opacity-80 transition-all active:scale-95 shadow-lg">
+                        ADD TO CART
+                    </button>
+    
+                    <button @click="isFavorite = !isFavorite" class="w-14 h-14 flex items-center justify-center rounded-full border border-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" :fill="isFavorite ? '#ef4444' : 'none'" viewBox="0 0 24 24" stroke-width="1.5" :stroke="isFavorite ? '#ef4444' : 'currentColor'" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+
     {{-- ════════════════════════════════════════════
          FOOTER
     ════════════════════════════════════════════ --}}

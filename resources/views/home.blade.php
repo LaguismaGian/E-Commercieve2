@@ -96,7 +96,7 @@
     
     
     {{-- ════════════════════════════════════════════
-         FRONT PAGE
+         TOP PAGE
     ════════════════════════════════════════════ --}}
     <section
         id="hero"
@@ -107,12 +107,16 @@
             <h1 class="font-serif text-white text-5xl md:text-6xl font-bold leading-tight mb-5">
                 Let's Make Scented Candles<br/>a Part of Your Life.
             </h1>
-            <p class="text-white text-base leading-relaxed mb-8">
-                Explore a vibrant tapestry of blooms and arrangements that add color, fragrance,
-                and elegance to your life.<br/>Discover the perfect candle expression for every moment and occasion.
-            </p>
+
+            <p class="text-sm md:text-base text-white leading-relaxed font-light italic mb-4">
+                "Light up your world with scents that tell a story. Whether it’s a quiet 
+                evening in or a celebration shared with loved ones, discover an
+                <span class="text-orange-600 font-medium not-italic">enchanting glow</span> 
+                for every moment and occasion."
+           </p>
+
             <a href="/shop"
-               class="inline-block brand-orange text-white font-sans font-semibold text-sm tracking-widest uppercase bg-orange-600 hover:scale-110 px-10 py-4 rounded-full  shadow-lg">
+               class="inline-block  text-white font-sans font-semibold text-sm tracking-widest uppercase bg-orange-600 hover:scale-110 px-10 py-4 rounded-full  shadow-lg">
                 Shop Now
             </a>
         </div>
@@ -122,7 +126,7 @@
     {{-- ════════════════════════════════════════════
          FEATURED PRODUCTS
     ════════════════════════════════════════════ --}}
-    <section id="shop" class="bg-section py-16 px-6">
+    <section id="shop" class="bg-section-bg py-16 px-6">
         <div class="max-w-7xl mx-auto">
     
             <h2 class="font-serif text-3xl font-bold text-center mb-10">Featured Products</h2>
@@ -134,26 +138,27 @@
                     $featured = [
                         [
                             'name'      => 'Customizable Bouquet Candle',
-                            'old_price' => 'varies',
+                            'old_price' => null,
                             'price'     => 'varies from design',
                             'image'     => 'images/bouquetcandle.jpg',
                         ],
                         [
                             'name'      => 'Strawberry Dessert Candle',
-                            'old_price' => '₱270',
-                            'price'     => '₱250',
+                            'old_price' => '₱260.00',
+                            'price'     => '₱250.00',
                             'image'     => 'images/strawberryproduct.png',
                         ],
+
                         [
                             'name'      => 'PumpkinSpice Dessert Candle',
-                            'old_price' => '₱270',
-                            'price'     => '₱250',
+                            'old_price' => '₱260.00',
+                            'price'     => '₱250.00',
                             'image'     => 'images/pumpkinproduct.png',
                         ],
                         [
                             'name'      => 'Orange Dessert Candle',
-                            'old_price' => '₱270',
-                            'price'     => '₱250',
+                            'old_price' => '₱260.00',
+                            'price'     => '₱250.00',
                             'image'     => 'images/orangeproduct.png',
                         ],
                     ];
@@ -163,9 +168,11 @@
                 <a href="shop">
                     <div class="product-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                         <div class="relative bg-gray-200 h-52 flex items-center justify-center">
+                            
                             {{-- Sale badge --}}
-                            <span class="absolute top-3 left-3 bg-white text-gray-700 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">Sale!</span>
-                            {{-- Cart badge – hidden until hover --}}
+                            <span class="absolute top-3 left-3 bg-red-500 opacity-90 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">Sale!</span>
+
+                            {{-- Cart badge Hover Show --}}
                             <span class="cart-badge absolute top-3 right-3 bg-white rounded-full shadow-sm flex items-center justify-center" style="width:28px;height:28px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#F47953" class="w-4 h-4">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
@@ -181,10 +188,17 @@
                         
                         <div class="p-4 text-center">
                             <p class="font-serif font-bold text-sm mb-1">{{ $product['name'] }}</p>
+
                             <div class="flex items-center justify-center gap-2 text-xs">
-                                <span class="line-through text-gray-400">{{ $product['old_price'] }}</span>
-                                <span class="text-brand-red font-semibold">{{ $product['price'] }}</span>
+
+                                {{-- Prices --}}
+                                <span class="text-brand-red font-semibold">
+                                    {{ $product['price'] }}</span>
+
+                                <span class="line-through text-gray-400">
+                                    {{ $product['old_price'] }}</span>
                             </div>
+
                         </div>
                     </div>
                 </a>
@@ -243,7 +257,7 @@
     {{-- ════════════════════════════════════════════
          NEW DESIGNS SECTION
     ════════════════════════════════════════════ --}}
-    <section id="contact" class="bg-section py-16 px-6">
+    <section id="contact" class="bg-section-bg py-16 px-6">
         <div class="max-w-5xl mx-auto">
     
             {{-- Header --}}
@@ -253,71 +267,86 @@
                     Discover the Latest Designs at Your Top<br class="hidden md:block"/> Choice Scented Candle Shop
                 </h2>
             </div>
-    
+
             @php
                 $newDesigns = [
                         [
-                            'name'      => 'Rose Candle',
-                            'old_price' => '₱90',
-                            'price'     => '₱80',
+                            'name'      => 'Peony Flower Candle',
+                            'old_price' => '₱55.00',
+                            'price'     => '₱60.00',
                             'image'     => 'images/rose candle.png',
                         ],
                         [
                             'name'      => 'Choco Frappe Candle',
-                            'old_price' => '₱160',
-                            'price'     => '₱150',
+                            'old_price' => '₱160.00',
+                            'price'     => '₱150.00',
                             'image'     => 'images/chocofrappe.png',
                         ],
                         [
                             'name'      => 'Coffee Candle',
-                            'old_price' => '₱160',
-                            'price'     => '₱150',
+                            'old_price' => '₱160.00',
+                            'price'     => '₱150.00',
                             'image'     => 'images/coffee candle.png',
                         ],
                         [
                             'name'      => 'Bear Candle',
-                            'old_price' => '₱55',
-                            'price'     => '₱45',
+                            'old_price' => '₱55.00',
+                            'price'     => '₱45.00',
                             'image'     => 'images/bear candle.png',
                         ],
                         [
                             'name'      => 'Tincan Candle',
-                            'old_price' => '₱170',
-                            'price'     => '₱155',
+                            'old_price' => '₱165.00',
+                            'price'     => '₱155.00',
                             'image'     => 'images/tincan candle.png',
                         ],
                     ];
             @endphp
     
             {{-- Row 1: 3 columns --}}
-            <a href="/shop">
+            
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
                     @foreach (array_slice($newDesigns, 0, 3) as $product)
-                    <div class="product-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                        <div class="relative bg-gray-200 h-56 flex items-center justify-center">
-                            <span class="absolute top-3 left-3 bg-white text-gray-700 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">Sale!</span>
-                            <span class="cart-badge absolute top-3 right-3 bg-white rounded-full shadow-sm flex items-center justify-center" style="width:28px;height:28px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#F47953" class="w-4 h-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
-                                </svg>
-                            </span>
-                            @if ($product['image'])
-                                <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" class="w-full h-full object-cover"/>
-                            @else
-                                <span class="text-gray-400 text-sm">picture here</span>
-                            @endif
-                        </div>
-                        <div class="p-4 text-center">
-                            <p class="font-serif font-bold text-sm mb-1">{{ $product['name'] }}</p>
-                            <div class="flex items-center justify-center gap-2 text-xs">
-                                <span class="line-through text-gray-400">{{ $product['old_price'] }}</span>
-                                <span class="text-brand-red font-semibold">{{ $product['price'] }}</span>
+                    <a href="/shop">
+                        <div class="product-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                            <div class="relative bg-gray-200 h-56 flex items-center justify-center">
+
+                                {{-- Sale Badge --}}
+                                <span class="absolute top-3 left-3 bg-red-500 opacity-90 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">Sale!</span>
+
+                                {{-- Cart Badge --}}
+                                <span class="cart-badge absolute top-3 right-3 bg-white rounded-full shadow-sm flex items-center justify-center" style="width:28px;height:28px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#F47953" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+                                    </svg>
+                                </span>
+
+
+                                @if ($product['image'])
+                                    <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" class="w-full h-full object-cover"/>
+                                @else
+                                    <span class="text-gray-400 text-sm">picture here</span>
+                                @endif
+                            </div>
+                            <div class="p-4 text-center">
+                                <p class="font-serif font-bold text-sm mb-1">{{ $product['name'] }}</p>
+                                <div class="flex items-center justify-center gap-2 text-xs">
+
+
+                                    {{-- Prices --}}
+                                    <span class="text-brand-red font-semibold">
+                                        {{ $product['price'] }}</span>
+
+                                    <span class="line-through text-gray-400">
+                                        {{ $product['old_price'] }}</span>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                     @endforeach
                 </div>
-            </a>
+            
     
             {{-- Row 2: 2 columns centered --}}
             <a href="/shop">
@@ -325,7 +354,11 @@
                     @foreach (array_slice($newDesigns, 3, 2) as $product)
                     <div class="product-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                         <div class="relative bg-gray-200 h-56 flex items-center justify-center">
-                            <span class="absolute top-3 left-3 bg-white text-gray-700 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">Sale!</span>
+
+                            {{-- Sale badge --}}
+                            <span class="absolute top-3 left-3 bg-red-500 opacity-90 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">Sale!</span>
+
+                            {{-- Cart badge --}}
                             <span class="cart-badge absolute top-3 right-3 bg-white rounded-full shadow-sm flex items-center justify-center" style="width:28px;height:28px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#F47953" class="w-4 h-4">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
@@ -340,8 +373,15 @@
                         <div class="p-4 text-center">
                             <p class="font-serif font-bold text-sm mb-1">{{ $product['name'] }}</p>
                             <div class="flex items-center justify-center gap-2 text-xs">
-                                <span class="line-through text-gray-400">{{ $product['old_price'] }}</span>
-                                <span class="text-brand-red font-semibold">{{ $product['price'] }}</span>
+
+
+                                {{-- Prices --}}
+                                <span class="text-brand-red font-semibold">
+                                    {{ $product['price'] }}</span>
+
+                                <span class="line-through text-gray-400">
+                                    {{ $product['old_price'] }}</span>
+
                             </div>
                         </div>
                     </div>
@@ -412,7 +452,7 @@
         {{-- ════════════════════════════════════════════
          ABOUT OWNER SECTION
     ════════════════════════════════════════════ --}}
-    <section id="owner" class="bg-hero py-16 px-6">
+    <section id="owner" class="bg-hero-bg py-16 px-6">
         <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
     
             {{-- Owner circle photo --}}
