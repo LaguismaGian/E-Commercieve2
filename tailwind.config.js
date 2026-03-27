@@ -11,7 +11,7 @@ export default {
             colors: {
                 'brand-orange': '#F47953', // primary accent – buttons, prices, cart icon, active nav
                 'brand-red':    '#F83737', // danger – logout icon
-                'hero-bg':      '#F2D9CF', // hero section fallback background
+                'hero-bg':      '#F2D9CF', // homepage section fallback background
                 'section-bg':   '#F5ECEA', // featured products & new designs background
             },
             fontFamily: {
