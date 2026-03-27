@@ -9,6 +9,11 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+
+Route::get('/profile', function () {
+    return view('profile'); 
+})->middleware('auth')->name('profile');
+
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
