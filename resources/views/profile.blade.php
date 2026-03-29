@@ -14,17 +14,37 @@
         <p class="mt-2 text-lg">My Account</p>
     </header>
 
-    <!-- Navigation -->
+    <!-- Navigation with Cart Counter -->
     <nav class="bg-white shadow-md flex justify-between items-center px-6 py-3">
         <div class="flex space-x-4">
             <a href="/" class="text-gray-800 font-semibold hover:text-orange-500">Home</a>
             <a href="/about" class="text-gray-800 font-semibold hover:text-orange-500">About</a>
             <a href="/shop" class="text-gray-800 font-semibold hover:text-orange-500">Shop</a>
             <a href="/contact" class="text-gray-800 font-semibold hover:text-orange-500">Contact</a>
+            <!-- Cart Link with Total Quantity Counter -->
+            <a href="/cart" class="text-gray-800 font-semibold hover:text-orange-500 relative">
+                🛒 Cart
+                @auth
+                    @php 
+                        $totalQuantity = Auth::user()->cartItems->sum('quantity'); 
+                    @endphp
+                    @if($totalQuantity > 0)
+                        <span class="absolute -top-2 -right-4 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                            {{ $totalQuantity }}
+                        </span>
+                    @endif
+                @endauth
+            </a>
             <a href="/profile" class="text-orange-500 font-semibold">My Profile</a>
         </div>
         
         <div class="flex items-center space-x-4">
+            <!-- Admin Panel Button in Navigation (only for admin) -->
+            @if(Auth::user()->isAdmin())
+                <a href="{{ route('admin.products.index') }}" class="bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700 text-sm">
+                    📋 Manage Products
+                </a>
+            @endif
             <span class="text-gray-700">Welcome, {{ Auth::user()->name }}! 👋</span>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -107,7 +127,7 @@
             @endif
         </div>
         
-        <!-- Orders Section (placeholder) -->
+        <!-- Orders Section -->
         <div class="bg-white rounded-lg shadow-md p-6 mt-6">
             <h2 class="text-2xl font-bold text-gray-800 mb-4">My Orders</h2>
             <p class="text-gray-500">You haven't placed any orders yet.</p>

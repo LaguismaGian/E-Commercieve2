@@ -147,9 +147,31 @@
 
         {{-- Product Grid --}}
         <div class="flex-1">
+            
+            {{-- ADMIN MANAGEMENT --}}
+            @auth
+                @if(Auth::user()->isAdmin())
+                    <div class="mb-8 p-4 bg-orange-50 border border-orange-100 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <h3 class="text-orange-800 font-bold text-sm">Store Management</h3>
+                            <p class="text-orange-600 text-[11px]">You are logged in as an administrator.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <a href="{{ route('admin.products.index') }}" 
+                               class="text-xs font-semibold text-gray-600 hover:text-gray-900 bg-white border border-gray-200 px-4 py-2 rounded-xl transition-all shadow-sm">
+                                View Inventory
+                            </a>
+                            <a href="{{ route('admin.products.create') }}" 
+                               class="text-xs font-semibold text-white bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-xl transition-all shadow-sm flex items-center gap-2">
+                                <span>+</span> Add Product
+                            </a>
+                        </div>
+                    </div>
+                @endif
+            @endauth
+
             <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         
-
                 @foreach($products as $product)
                     <a href="{{ route('shop.show', $product->id) }}"
                        x-show="currentCategory === 'All' || currentCategory === '{{ $product->category }}'"
@@ -191,7 +213,7 @@
                                         ₱Varies from design
                                     @else
                                         ₱{{ number_format($product->price, 2) }}
-                                    @endif</span>
+                                    @endif
                                 </p>
                 
                                 @if($product->on_sale && $product->old_price)
@@ -290,3 +312,5 @@
 
 </body>
 </html>
+
+
