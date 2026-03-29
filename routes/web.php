@@ -2,45 +2,26 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
-use App\Models\Product;
+use App\Http\Controllers\PageController;
 
+// Public Shop Routes
 Route::get('/shop', [ProductController::class, 'index'])->name('shop');
-Route::get('/shop/{slug}', [ProductController::class, 'show'])->name('shop.show');
+Route::get('/shop/{id}', [ProductController::class, 'show'])->name('shop.show');
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+// Basic Pages
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
+// Auth & Profile
+Route::get('/login', function () { return view('auth.login'); })->name('login');
 
-Route::get('/profile', function () {
-    return view('profile'); 
-})->middleware('auth')->name('profile');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', function () { return view('profile'); })->name('profile');
+    Route::get('/user/confirm-password', function () { return view('auth.confirm-password'); })->name('password.confirm');
+});
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
-// This will be use if the data of products will put to database
-/*
-Route::get('/shop', function () {
-    $products = Product::all();
-    return view('shop', compact('products'));
-})->name('shop');
-*/
-
+// Admin Area
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', ProductController::class);
 });
-
-Route::get('/user/confirm-password', function () {
-    return view('auth.confirm-password');
-})->middleware('auth')->name('password.confirm');
-

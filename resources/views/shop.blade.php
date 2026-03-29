@@ -151,10 +151,10 @@
         
 
                 @foreach($products as $product)
-                    <a   href="{{ route('shop.show', Str::slug($product['name'])) }}"
-                         x-show="currentCategory === 'All' || currentCategory === '{{ $product['category'] }}'"
-                         x-transition.opacity
-                         class="product-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-50">
+                    <a href="{{ route('shop.show', $product->id) }}"
+                       x-show="currentCategory === 'All' || currentCategory === '{{ $product->category }}'"
+                       x-transition.opacity
+                       class="product-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-50">
                         
                         <div class="relative bg-gray-200 h-48 flex items-center justify-center">
 
@@ -166,41 +166,39 @@
                             </span>
 
                             {{-- Sale Badge --}}
-                            @if($product['on_sale'])
+                            @if($product->on_sale)
                                 <span class="absolute top-3 left-3 bg-red-500 opacity-90 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">
                                     Sale!
                                 </span>
                             @endif
-
-                            
-                            {{-- Images --}}
-                            <img src="{{ asset($product['image']) }}" class="w-full h-full object-cover"/>
-        
+                
+                            {{-- Product Image --}}
+                            <img src="{{ asset('storage/images/' . $product->image) }}" class="w-full h-full object-cover" alt="{{ $product->name }}"/>
                         </div>
-
-        
+                
                         <div class="p-4">
                             <p class="text-[10px] text-orange-500 font-bold uppercase tracking-wider mb-1">
-                                {{ $product['category'] }}
+                                {{ $product->category }}
                             </p>
                             
                             <h4 class="font-serif font-bold text-sm mb-1 text-gray-900">
-                                {{ $product['name'] }}
+                                {{ $product->name }}
                             </h4>
                             
-                            {{-- Orig Price --}}
                             <div class="flex items-center gap-2">
                                 <p class="text-brand-red font-semibold text-sm">
-                                    {{ $product['price'] }}
+                                    @if($product->price <= 0)
+                                        ₱Varies from design
+                                    @else
+                                        ₱{{ number_format($product->price, 2) }}
+                                    @endif</span>
                                 </p>
-
-                                {{-- Old Price Shown if Exist --}}
-                                @if(isset($product['old_price']) && $product['old_price'])
+                
+                                @if($product->on_sale && $product->old_price)
                                     <p class="text-gray-400 line-through text-xs">
-                                        {{ $product['old_price'] }}
+                                        ₱{{ number_format($product->old_price, 2) }}
                                     </p>
                                 @endif
-
                             </div>
                         </div>
                     </a>

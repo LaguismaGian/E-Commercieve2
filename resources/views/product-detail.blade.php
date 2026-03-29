@@ -93,8 +93,8 @@
 
 
     {{-- Product Details --}}
-    <main class="max-w-7xl mx-auto px-6 py-12" x-data="{ 
-        mainImage: '{{ asset($product['image']) }}',
+    <main class="max-w-7xl mx-auto px-6 py-12" x-data="{
+        mainImage: '{{ asset('storage/images/' . $product->image) }}',
         quantity: 1,
         selectedScent: null,
         isFavorite: false
@@ -103,63 +103,79 @@
             
             <div class="w-full lg:w-1/2 space-y-4">
                 <div class="relative bg-gray-50 rounded-3xl overflow-hidden aspect-square flex items-center justify-center border border-gray-100">
-                    @if($product['on_sale'])
-                        <span class="absolute top-6 left-6 bg-red-50 text-red-600 text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-sm border border-red-100">SALE</span>
+                   
+                    {{-- Sale Badge --}}
+                    @if($product->on_sale)
+                        <span class="absolute top-3 left-3 bg-red-500 opacity-90 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">
+                            Sale!
+                        </span>
                     @endif
+
                     <img :src="mainImage" class="w-full h-full object-cover transition-all duration-500">
                 </div>
     
                 <div class="flex gap-4">
-                    <button @click="mainImage = '{{ asset($product['image']) }}'" class="w-24 h-24 rounded-2xl overflow-hidden border-2 border-orange-500">
-                        <img src="{{ asset($product['image']) }}" class="w-full h-full object-cover">
+                    
+                    <button @click="mainImage = '{{ asset('storage/images/' . $product->image) }}'" 
+                            class="w-24 h-24 rounded-2xl overflow-hidden border-2"
+                            :class="mainImage === '{{ asset('storage/images/' . $product->image) }}' ? 'border-orange-500' : 'border-transparent'">
+                        <img src="{{ asset('storage/images/' . $product->image) }}" class="w-full h-full object-cover">
                     </button>
-                    </div>
+                </div>
             </div>
     
             <div class="w-full lg:w-1/2 space-y-6">
                 <div>
-                    <p class="text-[11px] text-orange-500 font-bold uppercase tracking-widest mb-2">{{ $product['category'] }}</p>
-                    <h1 class="font-serif text-4xl font-bold text-gray-900">{{ $product['name'] }}</h1>
+                   
+                    <p class="text-[11px] text-orange-500 font-bold uppercase tracking-widest mb-2">{{ $product->category }}</p>
+                    <h1 class="font-serif text-4xl font-bold text-gray-900">{{ $product->name }}</h1>
                 </div>
     
                 <div class="flex items-center gap-3">
-                    <span class="text-3xl font-bold text-red-600">{{ $product['price'] }}</span>
-                    @if($product['old_price'])
-                        <span class="text-xl text-gray-400 line-through">{{ $product['old_price'] }}</span>
+                   
+                    <span class="text-3xl font-bold text-red-600">
+                        @if($product->price <= 0)
+                            ₱Varies from design
+                        @else
+                            ₱{{ number_format($product->price, 2) }}
+                        @endif</span>
+                    </span>
+                    
+                    @if($product->old_price)
+                        <span class="text-xl text-gray-400 line-through">₱{{ number_format($product->old_price, 2) }}</span>
                     @endif
                 </div>
     
                 <hr class="border-gray-100">
-
-               {{-- Array for photos of scents --}} 
-               @php
-                $scents = [
-                    ['name' => 'Rose',          'image' => 'rose.jpg'],
-                    ['name' => 'Baby powder',   'image' => 'baby powder.jpg'],
-                    ['name' => 'Strawberry',    'image' => 'strawberry2.jpg'],
-                    ['name' => 'Pumpkin Spice', 'image' => 'pumpkin spice.jpg'],
-                    ['name' => 'Fresh Bamboo',  'image' => 'fresh bamboo.jpg'],
-                    ['name' => 'Watermelon',    'image' => 'watermelon.jpg'],
-                    ['name' => 'Orange',        'image' => 'orange.jpg'],
-                    ['name' => 'Vanilla',       'image' => 'vanilla.jpg'],
-                    ['name' => 'Marriot',       'image' => 'marriot.jpg'],
-                    ['name' => 'Chocolate',     'image' => 'chocolate.jpg'],
-                    ['name' => 'Lavender',      'image' => 'lavender.jpg'],
-                    ['name' => 'Coffee',        'image' => 'coffee.jpg'],
-                ];
+    
+                @php
+                 $scents = [
+                     ['name' => 'Rose',          'image' => 'rose.jpg'],
+                     ['name' => 'Baby powder',   'image' => 'baby powder.jpg'],
+                     ['name' => 'Strawberry',    'image' => 'strawberry2.jpg'],
+                     ['name' => 'Pumpkin Spice', 'image' => 'pumpkin spice.jpg'],
+                     ['name' => 'Fresh Bamboo',  'image' => 'fresh bamboo.jpg'],
+                     ['name' => 'Watermelon',    'image' => 'watermelon.jpg'],
+                     ['name' => 'Orange',        'image' => 'orange.jpg'],
+                     ['name' => 'Vanilla',       'image' => 'vanilla.jpg'],
+                     ['name' => 'Marriot',       'image' => 'marriot.jpg'],
+                     ['name' => 'Chocolate',     'image' => 'chocolate.jpg'],
+                     ['name' => 'Lavender',      'image' => 'lavender.jpg'],
+                     ['name' => 'Coffee',        'image' => 'coffee.jpg'],
+                 ];
                 @endphp
                 
-
-                {{-- Scents photo --}}
                 <div>
                     <h3 class="text-sm font-bold text-gray-900 mb-4">Select Scent</h3>
                     <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-x-3 gap-y-6">
+
                         @foreach($scents as $scent)
                             <div class="flex flex-col items-center group">
                                 <button @click="selectedScent = '{{ $scent['name'] }}'"
                                         type="button"
                                         class="w-12 h-12 rounded-full border-2 transition-all hover:scale-110 overflow-hidden mb-2 shadow-sm"
                                         :class="selectedScent === '{{ $scent['name'] }}' ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-200'">
+                                    {{-- These are static icons, keep in public/images --}}
                                     <img src="{{ asset('images/' . $scent['image']) }}" 
                                          alt="{{ $scent['name'] }}" 
                                          class="w-full h-full object-cover">
@@ -173,11 +189,9 @@
                         @endforeach
                     </div>
                 </div>
-
-                
-                {{-- Quantity Button --}}
+    
+                {{-- Quantity and Actions --}}
                 <div class="relative flex flex-col sm:flex-row items-center gap-4 pt-6">
-
                     <div class="flex items-center border border-gray-200 rounded-full px-2 py-1 bg-gray-50">
                         <button @click="if(quantity > 1) quantity--" class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-black">-</button>
                         <span class="w-12 text-center font-bold" x-text="quantity"></span>
@@ -194,7 +208,6 @@
                         </svg>
                     </button>
                 </div>
-
             </div>
         </div>
     </main>
