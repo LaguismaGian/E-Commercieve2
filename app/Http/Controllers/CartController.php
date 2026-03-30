@@ -26,31 +26,44 @@ class CartController extends Controller
     // Add item to cart
     public function add(Request $request, Product $product)
     {
+        // Get the quantity and scent from the form
+        $requestedQuantity = (int) $request->input('quantity', 1);
+        $selectedScent = $request->input('scent', 'Default');
+    
         if ($product->stock <= 0) {
             return back()->with('error', 'This product is out of stock!');
         }
-
+    
+        // Check for existing item with the same product AND scent
         $cartItem = CartItem::where('user_id', Auth::id())
                             ->where('product_id', $product->id)
+                            ->where('scent', $selectedScent) // Ensure scent matching
                             ->first();
-
+    
         if ($cartItem) {
-            // Check if adding one more exceeds stock
-            if ($cartItem->quantity + 1 > $product->stock) {
-                return back()->with('error', 'Cannot add more. Only ' . $product->stock . ' in stock!');
+            // 3. Check if current cart + new request exceeds stock
+            if ($cartItem->quantity + $requestedQuantity > $product->stock) {
+                return back()->with('error', 'Cannot add more. Only ' . $product->stock . ' available!');
             }
-            $cartItem->quantity += 1;
+            
+            $cartItem->quantity += $requestedQuantity;
             $cartItem->save();
-            $message = 'Added another ' . $product->name . ' to cart!';
+            $message = "Added {$requestedQuantity} more " . $product->name . " ({$selectedScent}) to your collection!";
         } else {
+            // 4. Double check stock for new entries
+            if ($requestedQuantity > $product->stock) {
+                return back()->with('error', 'Only ' . $product->stock . ' in stock!');
+            }
+    
             CartItem::create([
                 'user_id' => Auth::id(),
                 'product_id' => $product->id,
-                'quantity' => 1
+                'quantity' => $requestedQuantity,
+                'scent' => $selectedScent,
             ]);
-            $message = $product->name . ' added to cart!';
+            $message = "{$requestedQuantity}x " . $product->name . " added to your collection!";
         }
-
+    
         return back()->with('success', $message);
     }
 
@@ -76,6 +89,20 @@ class CartController extends Controller
         $cartItem->update(['quantity' => $newQuantity]);
 
         return redirect()->route('cart.index')->with('success', 'Cart updated!');
+    }
+
+    // Remove item from cart
+    public function remove(CartItem $cartItem)
+    {
+        // Security check: Ensure the item belongs to the logged-in user
+        if ($cartItem->user_id !== Auth::id()) {
+            abort(403);
+        }
+    
+        $productName = $cartItem->product->name;
+        $cartItem->delete();
+    
+        return redirect()->route('cart.index')->with('success', $productName . ' removed from your collection.');
     }
 
     // Clear entire cart
