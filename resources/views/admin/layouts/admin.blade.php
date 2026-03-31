@@ -4,24 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard — Daily Essentials</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .font-serif { font-family: 'Instrument Serif', serif; }
-        .text-brand-orange { color: #F47953; }
-        .bg-brand-orange { background-color: #F47953; }
-        
-        [x-cloak] { display: none !important; }
-
-        .fade-out { animation: fadeOut 0.5s ease-out 3s forwards; }
-        @keyframes fadeOut { to { opacity: 0; visibility: hidden; height: 0; margin: 0; padding: 0; } }
-    </style>
 </head>
 
 <body 
@@ -57,7 +46,7 @@
                 </a>
                 <a href="{{ route('admin.products.index') }}" 
                    class="text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.products.*') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
-                    Catalog
+                    Inventory
                 </a>
                 <a href="{{ route('admin.orders.index') }}" 
                    class="text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.orders.*') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
@@ -175,7 +164,7 @@
     <main class="flex-grow max-w-7xl mx-auto w-full px-6 py-10">
         
         @if(session('success'))
-            <div class="bg-green-50 border border-green-100 text-green-700 px-6 py-4 rounded-2xl mb-8 flex items-center gap-3 fade-out shadow-sm">
+            <div class="bg-green-50 border border-green-100 text-green-700 px-6 py-4 rounded-2xl mb-8 flex items-center gap-3 animate-fade-out shadow-sm">
                 <div class="bg-green-500 text-white rounded-full p-1 flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-4 h-4">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />

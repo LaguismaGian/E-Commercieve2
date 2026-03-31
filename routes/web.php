@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController; // Public Controller
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController; 
 // Admin Controllers (Aliased to avoid name collision with public ProductController)
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -18,7 +19,9 @@ use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
+
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 
 // Shop
 Route::get('/shop', [ProductController::class, 'index'])->name('shop');

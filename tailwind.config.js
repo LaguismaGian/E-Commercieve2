@@ -9,17 +9,36 @@ export default {
     theme: {
         extend: {
             colors: {
-                'brand-orange': '#F47953', // primary accent – buttons, prices, cart icon, active nav
-                'brand-red':    '#F83737', // danger – logout icon
-                'hero-bg':      '#F2D9CF', // homepage section fallback background
-                'section-bg':   '#FFF8F8', // featured products & new designs background
+                // Your Storefront Colors
+                'brand-orange': '#F47953', 
+                'brand-red':    '#F83737', 
+                'hero-bg':      '#F2D9CF', 
+                'section-bg':   '#FFF8F8', 
             },
             fontFamily: {
-                // main body font
-                'sans':  ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                // headings font
-                'serif': ['Inria Serif', 'ui-serif', 'Georgia', 'serif'],
+                'sans': ['Inter', 'sans-serif'],
+                'serif': ['"Instrument Serif"', 'serif'], // Becomes font-serif
+                'inria': ['"Inria Serif"', 'serif'],      // Becomes font-inria
             },
+            screens: {
+                // extra-small breakpoint used for mobile adjustments in the Admin nav
+                'xs': '475px',
+            },
+            keyframes: {
+                // smooth fade-out animation used for the Success/Error Toast Notifications
+                fadeOut: {
+                    'to': { 
+                        opacity: '0', 
+                        visibility: 'hidden', 
+                        height: '0', 
+                        margin: '0', 
+                        padding: '0' 
+                    },
+                }
+            },
+            animation: {
+                'fade-out': 'fadeOut 0.5s ease-out 3s forwards',
+            }
         },
     },
     plugins: [],
