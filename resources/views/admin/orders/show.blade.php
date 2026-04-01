@@ -107,7 +107,7 @@
                             <p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">Reference Number</p>
                             <p class="font-mono text-gray-900 font-bold bg-gray-50 px-3 py-2 rounded-lg inline-block border border-gray-100">{{ $order->payment_reference }}</p>
                         </div>
-                        <a href="{{ asset('storage/' . $order->payment_proof) }}" target="_blank" 
+                        <a href="{{ asset('images/payments/' . $order->payment_proof) }}" target="_blank" 
                            class="block w-full text-center bg-gray-50 border border-gray-200 text-gray-600 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-brand-orange hover:border-orange-200 transition-all">
                             View Screenshot
                         </a>

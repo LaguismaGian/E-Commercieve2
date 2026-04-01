@@ -7,8 +7,8 @@
     {{-- ════════════════════════════════════════════
          TOP PAGE HERO
     ════════════════════════════════════════════ --}}
-    <section class="relative min-h-[200px] flex flex-col items-center justify-center text-center px-6" 
-             style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('{{ asset('images/bgphoto.png') }}'); background-size: cover; background-position: center;">
+    <section class="relative min-h-[250px] flex flex-col items-center justify-center text-center px-6" 
+             style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('{{ asset('images/bgphoto2.png') }}'); background-size: cover; background-position: center;">
         <h1 class="font-inria text-white text-4xl md:text-5xl font-bold tracking-tight mb-2">
             Your Shopping Cart
         </h1>
@@ -20,7 +20,7 @@
     ════════════════════════════════════════════ --}}
     <main class="max-w-7xl mx-auto px-6 py-12">
         
-        {{-- Success Message (Now using Tailwind animation instead of JS) --}}
+        {{-- Success Message --}}
         @if(session('success'))
             <div class="bg-green-50 border border-green-100 text-green-700 px-6 py-4 rounded-2xl mb-8 flex items-center gap-3 animate-fade-out shadow-sm">
                 <div class="bg-green-500 text-white rounded-full p-1 flex-shrink-0">
@@ -29,6 +29,18 @@
                     </svg>
                 </div>
                 <span class="font-bold text-sm tracking-wide">{{ session('success') }}</span>
+            </div>
+        @endif
+
+        {{-- Error Message --}}
+        @if(session('error'))
+            <div class="bg-red-50 border border-red-100 text-red-700 px-6 py-4 rounded-2xl mb-8 flex items-center gap-3 shadow-sm">
+                <div class="bg-red-500 text-white rounded-full p-1 flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" class="w-3 h-3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <span class="font-bold text-sm tracking-wide">{{ session('error') }}</span>
             </div>
         @endif
 
@@ -57,9 +69,8 @@
         @if($cartItems->count() > 0)
             <div class="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden">
                 
-                {{-- ⚡ ADDED: Responsive Wrapper for Mobile --}}
+                
                 <div class="overflow-x-auto">
-                    {{-- ⚡ ADDED: min-w-[700px] ensures it doesn't crush on phones --}}
                     <table class="w-full text-left min-w-[700px]">
                         <thead class="bg-gray-50/50 border-b border-gray-100">
                             <tr>
@@ -78,7 +89,7 @@
                                     <div class="flex items-center gap-4">
                                         <div class="w-20 h-20 bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 shadow-sm flex-shrink-0">
                                             @if($item->product->image)
-                                                <img src="{{ asset('storage/images/' . $item->product->image) }}" class="w-full h-full object-cover">
+                                                <img src="{{ asset('images/products/' . $item->product->image) }}" class="w-full h-full object-cover">
                                             @else
                                                 <div class="w-full h-full flex items-center justify-center text-2xl">🕯️</div>
                                             @endif

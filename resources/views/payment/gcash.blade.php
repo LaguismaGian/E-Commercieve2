@@ -12,6 +12,7 @@
         <h1 class="font-inria text-white text-4xl md:text-5xl font-bold tracking-tight mb-2">
             Payment
         </h1>
+
         <p class="text-white/90 text-sm tracking-widest uppercase font-medium">Finalizing Order #{{ $checkoutData['order_number'] }}</p>
     </section>
 

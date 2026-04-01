@@ -17,7 +17,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
         
         {{-- Total Revenue --}}
-        <div class="bg-slate-900 rounded-[2rem] shadow-md p-6 lg:col-span-2 relative overflow-hidden group">
+        <div class="bg-slate-900 rounded-[2rem] shadow-lg p-6 lg:col-span-2 relative overflow-hidden group">
             <div class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-orange-500/20 rounded-full blur-2xl group-hover:bg-orange-500/30 transition-all"></div>
             
             <div class="relative z-10 flex flex-col h-full justify-between">
@@ -35,7 +35,7 @@
         </div>
 
         {{-- Pending Orders --}}
-        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-md p-6 flex flex-col justify-between">
+        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-lg p-6 flex flex-col justify-between">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -49,7 +49,7 @@
         </div>
 
         {{-- Total Orders --}}
-        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-md p-6 flex flex-col justify-between">
+        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-lg p-6 flex flex-col justify-between">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
@@ -63,7 +63,7 @@
         </div>
 
         {{-- Total Users --}}
-        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-md p-6 flex flex-col justify-between">
+        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-lg p-6 flex flex-col justify-between">
             <div class="flex items-center gap-3 mb-6">
                 <div class="w-10 h-10 rounded-full bg-orange-50 text-brand-orange flex items-center justify-center">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -84,7 +84,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {{-- Recent Orders Widget --}}
-        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-md overflow-hidden flex flex-col">
             <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-50">
                 <h2 class="font-serif text-2xl font-bold text-gray-900">Recent Orders</h2>
                 <a href="{{ route('admin.orders.index') }}" class="text-[10px] font-bold uppercase tracking-widest text-brand-orange hover:text-orange-600 transition-colors">View All</a>
@@ -121,7 +121,7 @@
         </div>
 
         {{-- Low Stock Alerts Widget --}}
-        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-md overflow-hidden flex flex-col">
             <div class="p-6 md:p-8 flex justify-between items-center border-b border-gray-50">
                 <div class="flex items-center gap-3">
                     <h2 class="font-serif text-2xl font-bold text-gray-900">Inventory Alerts</h2>
@@ -138,7 +138,7 @@
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 rounded-xl overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
                                 @if($product->image)
-                                    <img src="{{ asset('storage/images/' . $product->image) }}" class="w-full h-full object-cover">
+                                    <img src="{{ asset('images/products/' . $product->image) }}" class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center text-xl">🕯️</div>
                                 @endif
@@ -166,7 +166,7 @@
         </div>
 
         {{-- Quick Actions Widget --}}
-        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden lg:col-span-2">
+        <div class="bg-white rounded-[2rem] border border-gray-100 shadow-md overflow-hidden lg:col-span-2">
             <div class="p-6 md:p-8 border-b border-gray-50">
                 <h2 class="font-serif text-2xl font-bold text-gray-900">Quick Actions</h2>
             </div>

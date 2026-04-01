@@ -38,9 +38,12 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('images', 'public');
-            
-            // Bro I only saved the filename of Images that's why it has "basename"
-            $data['image'] = basename($path);
+            // make unique name to avoid double name
+            $filename = time() . '_' . $file->getClientOriginalName();
+            // directly to path
+            $file->move(public_path('images/products'), $filename);
+            //save only filename
+            $data['image'] = $filename;
         }
 
         Product::create($data);

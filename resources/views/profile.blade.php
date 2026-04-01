@@ -61,6 +61,7 @@
         <div class="lg:col-span-2 space-y-8">
             
             {{-- 1. Order History Section --}}
+            {{-- 1. Order History Section --}}
             <div class="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 p-8 md:p-10">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-10 h-10 bg-orange-50 rounded-2xl flex items-center justify-center text-brand-orange">
@@ -69,13 +70,66 @@
                     <h2 class="font-inria text-2xl font-bold text-slate-800">My Orders</h2>
                 </div>
 
-                {{-- Empty State --}}
-                <div class="text-center py-10 bg-gray-50 rounded-[2rem] border border-dashed border-gray-200">
-                    <p class="text-gray-500 text-sm mb-6">You haven't placed any orders yet.</p>
-                    <a href="/shop" class="inline-block bg-slate-900 text-white px-8 py-3.5 rounded-full font-bold shadow-lg hover:bg-brand-orange transition-all active:scale-95 text-xs tracking-widest uppercase">
-                        Start Shopping
-                    </a>
-                </div>
+                {{-- Fetch orders for the logged-in user --}}
+                @php
+                    $orders = Auth::user()->orders()->latest()->get();
+                @endphp
+
+                @if($orders->count() > 0)
+                    {{-- Order List Table --}}
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-gray-100">
+                                    <th class="py-4 pr-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">Order ID</th>
+                                    <th class="py-4 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">Date</th>
+                                    <th class="py-4 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">Total</th>
+                                    <th class="py-4 px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">Status</th>
+                                    <th class="py-4 pl-4 text-right text-[10px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-50">
+                                @foreach($orders as $order)
+                                    <tr class="group hover:bg-gray-50/50 transition-colors">
+                                        <td class="py-4 pr-4">
+                                            <span class="font-bold text-sm text-gray-900">{{ $order->order_number }}</span>
+                                        </td>
+                                        <td class="py-4 px-4 text-sm text-gray-500 whitespace-nowrap">
+                                            {{ $order->created_at->format('M d, Y') }}
+                                        </td>
+                                        <td class="py-4 px-4 font-bold text-gray-900 whitespace-nowrap">
+                                            ₱{{ number_format($order->total_amount, 2) }}
+                                        </td>
+                                        <td class="py-4 px-4">
+                                            {{-- Dynamic Status Pill --}}
+                                            <span class="px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest rounded-full whitespace-nowrap
+                                                {{ $order->status == 'pending' ? 'bg-orange-50 text-orange-600' : '' }}
+                                                {{ $order->status == 'processing' ? 'bg-blue-50 text-blue-600' : '' }}
+                                                {{ $order->status == 'completed' ? 'bg-green-50 text-green-600' : '' }}
+                                                {{ $order->status == 'cancelled' ? 'bg-red-50 text-red-600' : '' }}
+                                            ">
+                                                {{ $order->status }}
+                                            </span>
+                                        </td>
+                                        <td class="py-4 pl-4 text-right">
+                                            <a href="{{ route('orders.show', $order) }}" class="text-[10px] font-bold text-gray-400 hover:text-brand-orange uppercase tracking-widest transition-colors">
+                                                View Receipt &rarr;
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    {{-- Empty State --}}
+                    <div class="text-center py-10 bg-gray-50 rounded-[2rem] border border-dashed border-gray-200">
+                        <p class="text-gray-500 text-sm mb-6">You haven't placed any orders yet.</p>
+                        <a href="/shop" class="inline-block bg-slate-900 text-white px-8 py-3.5 rounded-full font-bold shadow-lg hover:bg-brand-orange transition-all active:scale-95 text-xs tracking-widest uppercase">
+                            Start Shopping
+                        </a>
+                    </div>
+                @endif
             </div>
 
             {{-- Security Settings (2FA) --}}

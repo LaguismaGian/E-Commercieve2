@@ -166,7 +166,10 @@ class CheckoutController extends Controller
                 }
             }
 
-            // 1. Create the Order in DB
+            $file = $request->file('payment_screenshot');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/payments'), $filename);
+            
             $order = Order::create([
                 'user_id'           => Auth::id(),
                 'order_number'      => $checkoutData['order_number'],
@@ -175,7 +178,7 @@ class CheckoutController extends Controller
                 'payment_method'    => 'gcash',
                 'payment_status'    => 'awaiting_verification',
                 'payment_reference' => $request->reference_number,
-                'payment_proof'     => $request->file('payment_screenshot')->store('payment_proofs', 'public'),
+                'payment_proof'     => $filename, // <--- Just the filename here!
                 'shipping_address'  => $checkoutData['shipping_data']['shipping_address'],
                 'shipping_city'     => $checkoutData['shipping_data']['shipping_city'],
                 'shipping_phone'    => $checkoutData['shipping_data']['shipping_phone'],

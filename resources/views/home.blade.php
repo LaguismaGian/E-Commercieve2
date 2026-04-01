@@ -22,7 +22,7 @@
          TOP PAGE HERO
     ════════════════════════════════════════════ --}}
     <section id="hero" class="relative min-h-[480px] flex items-center justify-center text-center px-6 py-20"
-        style="background-image: url('{{ asset('images/bgphoto.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        style="background-image: url('{{ asset('images/bgphoto2.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
         <div class="relative z-10 max-w-2xl">
             <h1 class="font-inria text-white text-5xl md:text-6xl font-bold leading-tight mb-5">
                 Let's Make Scented Candles<br/>a Part of Your Life.
@@ -48,7 +48,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
 
                 @foreach ($featured as $product)
-                <a href="{{ route('shop.show', $product->id) }}" class="group"> {{-- 1. ADD 'group' CLASS HERE --}}
+                <a href="{{ route('shop.show', $product->id) }}" class="group"> 
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all">
                         <div class="relative bg-gray-200 h-52 flex items-center justify-center">
                             
@@ -62,7 +62,8 @@
                                 </svg>
                             </span>
                             
-                            <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover"/>
+                            {{-- product image --}}
+                            <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover"/>
                         </div>
 
                         <div class="p-4 text-center">
@@ -109,7 +110,7 @@
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-4">
                 @foreach ($scents as $scent)
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/' . $scent['image']) }}" 
+                    <img src="{{ asset('images/scents/' . $scent['image']) }}" 
                          alt="{{ $scent['name'] }}" 
                          class="w-14 h-14 rounded-full flex-shrink-0 object-cover cursor-pointer transition-transform duration-300 ease-out hover:scale-110 active:scale-125">
                     <span class="font-sans text-sm font-medium">{{ $scent['name'] }}</span>
@@ -133,7 +134,7 @@
             
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
                 @foreach ($newDesigns->slice(0, 3) as $product)
-                <a href="{{ route('shop.show', $product->id) }}" class="group"> {{-- 1. ADD 'group' CLASS HERE --}}
+                <a href="{{ route('shop.show', $product->id) }}" class="group"> 
                     <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all">
                         <div class="relative bg-gray-200 h-52 flex items-center justify-center">
                             
@@ -147,7 +148,8 @@
                                 </svg>
                             </span>
                             
-                            <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover"/>
+                             {{-- PRODUCT IMAGE --}}
+                            <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover"/>
                         </div>
 
                         <div class="p-4 text-center">
@@ -178,7 +180,7 @@
                                 </svg>
                             </span>
                             
-                            <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover"/>
+                            <img src="{{ asset('images/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover"/>
                         </div>
 
                         <div class="p-4 text-center">

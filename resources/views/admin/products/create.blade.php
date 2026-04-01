@@ -96,6 +96,7 @@
                                     <option value="0" {{ old('on_sale') == '0' ? 'selected' : '' }}>Regular Price</option>
                                     <option value="1" {{ old('on_sale') == '1' ? 'selected' : '' }}>Active Sale Badge</option>
                                 </select>
+
                                 {{-- Custom Dropdown Arrow --}}
                                 <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-gray-400 group-hover:text-orange-500 transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
@@ -160,9 +161,10 @@
                    class="px-6 py-3 rounded-xl font-bold text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-all text-center uppercase tracking-widest">
                     Cancel
                 </a>
+                
                 <button type="submit" 
                         class="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold text-sm shadow-md hover:bg-orange-500 transition-all active:scale-95 uppercase tracking-widest">
-                    Add to Catalog
+                    Add to Inventory
                 </button>
             </div>
         </form>

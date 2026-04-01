@@ -10,7 +10,7 @@
          TOP PAGE HERO
     ════════════════════════════════════════════ --}}
     <section class="relative min-h-[250px] flex items-center justify-center text-center px-6" 
-             style="background-image: url('{{ asset('images/bgphoto.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+             style="background-image: url('{{ asset('images/bgphoto2.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
              
         <h1 class="font-inria text-white text-4xl md:text-5xl font-bold tracking-tight">
             Get All Your Favorite Candles!
@@ -85,7 +85,6 @@
             <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         
                 @foreach($products as $product)
-                    {{-- ADDED 'group' CLASS HERE --}}
                     <a href="{{ route('shop.show', $product->id) }}"
                        x-show="currentCategory === 'All' || currentCategory === '{{ $product->category }}'"
                        x-transition.opacity
@@ -108,7 +107,7 @@
                             @endif
                 
                             {{-- Product Image --}}
-                            <img src="{{ asset('storage/images/' . $product->image) }}" class="w-full h-full object-cover" alt="{{ $product->name }}"/>
+                            <img src="{{ asset('images/products/' . $product->image) }}" class="w-full h-full object-cover" alt="{{ $product->name }}"/>
                         </div>
                 
                         <div class="p-4">

@@ -49,7 +49,7 @@
                     
                     <div class="mb-6 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 aspect-square">
                         @if($product->image)
-                            <img src="{{ asset('storage/images/' . $product->image) }}" class="w-full h-full object-cover shadow-inner">
+                            <img src="{{ asset('images/products/' . $product->image) }}" class="w-full h-full object-cover shadow-inner">
                         @else
                             <div class="w-full h-full flex items-center justify-center text-4xl">🕯️</div>
                         @endif

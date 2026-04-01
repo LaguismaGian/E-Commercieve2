@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmed - Daily Essentials</title>
+    <title>Order Confirmed | Daily Essentials</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .text-brand-orange { color: #F47953; }
@@ -56,7 +56,7 @@
                 </div>
             </div>
 
-            {{-- Smart Status Message Based on Payment Method --}}
+            {{-- Message Based on Payment Method --}}
             @if($order->payment_method === 'gcash')
                 <div class="flex items-start gap-3">
                     <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0 mt-0.5">
