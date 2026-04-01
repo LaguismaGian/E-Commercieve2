@@ -178,14 +178,14 @@ class CheckoutController extends Controller
                 'payment_method'    => 'gcash',
                 'payment_status'    => 'awaiting_verification',
                 'payment_reference' => $request->reference_number,
-                'payment_proof'     => $filename, // <--- Just the filename here!
+                'payment_proof'     => $filename, 
                 'shipping_address'  => $checkoutData['shipping_data']['shipping_address'],
                 'shipping_city'     => $checkoutData['shipping_data']['shipping_city'],
                 'shipping_phone'    => $checkoutData['shipping_data']['shipping_phone'],
                 'notes'             => $checkoutData['shipping_data']['notes'] ?? null,
             ]);
 
-            // 2. Create OrderItems & Reduce Stock
+            // orderItems and reduce Stock
             foreach ($cartItems as $item) {
                 OrderItem::create([
                     'order_id'   => $order->id,
@@ -196,7 +196,7 @@ class CheckoutController extends Controller
                 $item->product->decrement('stock', $item->quantity);
             }
 
-            // 3. Cleanup
+            // Cleanup
             CartItem::where('user_id', Auth::id())->delete();
             session()->forget('pending_checkout');
 

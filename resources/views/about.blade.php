@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.navbar')
 
 @section('title', 'Our Story | Daily Essentials')
 
@@ -14,15 +14,52 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
             {{-- Photo --}}
-            <div class="lg:col-span-5 relative group order-2 lg:order-1">
-                {{-- Decorative background shape --}}
-                <div class="absolute -inset-4 bg-orange-50 rounded-[3rem] transform rotate-3 transition-transform group-hover:rotate-0 duration-500"></div>
+            {{-- Photos Section --}}
+            <div class="lg:col-span-5 flex flex-col gap-8 order-2 lg:order-1 mt-4 lg:mt-0">
                 
-                {{-- Main Image with shadow and soft corners --}}
-                <img src="{{ asset('images/about.png') }}" 
-                     alt="Crafting Daily Essentials Candles" 
-                     class="relative w-full h-auto object-cover rounded-[2.5rem] shadow-2xl border-4 border-white z-10 transition-transform duration-500 group-hover:scale-[1.02]">
+                {{-- Main Top Photo --}}
+                <div class="grid grid-cols-2 gap-6 mt-4 md:mt-6">
+                    
+                    {{-- Second Photo --}}
+                    <div class="relative group">
+                        <div class="absolute -inset-3 bg-orange-50 rounded-[2rem] transform -rotate-2 transition-transform group-hover:rotate-0 duration-500"></div>
+                        <img src="{{ asset('images/candleworksss.jpg') }}" 
+                             alt="Our Process" 
+                             class="relative w-full h-auto aspect-square object-cover rounded-[2rem] shadow-xl border-4 border-white z-10 transition-transform duration-500 group-hover:scale-[1.05]">
+                    </div>
+
+                    {{-- Third Photo --}}
+                    <div class="relative group">
+                        <div class="absolute -inset-3 bg-orange-50 rounded-[2rem] transform rotate-2 transition-transform group-hover:rotate-0 duration-500"></div>
+                        <img src="{{ asset('images/candleworkssss.jpg') }}" 
+                             alt="The Ingredients" 
+                             class="relative w-full h-auto aspect-square object-cover rounded-[2rem] shadow-xl border-4 border-white z-10 transition-transform duration-500 group-hover:scale-[1.05]">
+                    </div>
+
+                </div>
+
+                {{-- Bottom 2 Photos (Side-by-Side Grid) --}}
+                <div class="grid grid-cols-2 gap-6 mt-4 md:mt-6">
+                    
+                    {{-- Second Photo --}}
+                    <div class="relative group">
+                        <div class="absolute -inset-3 bg-orange-50 rounded-[2rem] transform -rotate-2 transition-transform group-hover:rotate-0 duration-500"></div>
+                        <img src="{{ asset('images/candleworks.jpg') }}" 
+                             alt="Our Process" 
+                             class="relative w-full h-auto aspect-square object-cover rounded-[2rem] shadow-xl border-4 border-white z-10 transition-transform duration-500 group-hover:scale-[1.05]">
+                    </div>
+
+                    {{-- Third Photo --}}
+                    <div class="relative group">
+                        <div class="absolute -inset-3 bg-orange-50 rounded-[2rem] transform rotate-2 transition-transform group-hover:rotate-0 duration-500"></div>
+                        <img src="{{ asset('images/candleworkss.jpg') }}" 
+                             alt="The Ingredients" 
+                             class="relative w-full h-auto aspect-square object-cover rounded-[2rem] shadow-xl border-4 border-white z-10 transition-transform duration-500 group-hover:scale-[1.05]">
+                    </div>
+
+                </div>
             </div>
+            
 
             {{-- Story --}}
             <div class="lg:col-span-7 space-y-10 order-1 lg:order-2">

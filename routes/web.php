@@ -3,11 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Order;
 // Controllers
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController; // Public Controller
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController; 
+use App\Http\Controllers\Auth\PasswordController;
 // Admin Controllers (Aliased to avoid name collision with public ProductController)
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -32,19 +34,18 @@ Route::get('/login', function () { return view('auth.login'); })->name('login');
 
 
 // AUTHENTICATED USER ROUTES
-
+// 'verified' comment ko muna para magamit kahit hindi verified gmail
 Route::middleware(['auth'])->group(function () {
     
     // Profile & Security
     Route::get('/profile', function () { return view('profile'); })->name('profile');
     Route::get('/user/confirm-password', function () { return view('auth.confirm-password'); })->name('password.confirm');
 
-    // Cart
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-    Route::put('/cart/update/{cartItem}', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/remove/{cartItem}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+    // Profile settings
+    Route::get('/settings', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/settings', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/settings', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::put('/settings/password', [PasswordController::class, 'update'])->name('profile.password.update');
 
     // Checkout & Payments
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
@@ -60,6 +61,13 @@ Route::middleware(['auth'])->group(function () {
         return view('orders.show', compact('order'));
     })->name('orders.show');
 });
+
+ // Cart
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::put('/cart/update/{cartItem}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{cartItem}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 
 
 // ADMIN ROUTES

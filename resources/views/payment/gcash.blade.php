@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.navbar')
 
 @section('title', 'Payment | Daily Essentials')
 
@@ -29,7 +29,7 @@
                 <h2 class="font-inria text-2xl font-bold text-slate-800 mb-6">Scan to Pay</h2>
                 
                 <div class="bg-slate-50 p-6 rounded-2xl mb-6 inline-block shadow-inner border border-gray-100">
-                    <img src="{{ asset('images/gcash-qr.png') }}" alt="GCash QR Code" class="w-64 h-64 mx-auto rounded-lg">
+                    <img src="{{ asset('images/gcashQR.jpg') }}" alt="GCash QR Code" class="w-64 h-64 mx-auto rounded-lg">
                 </div>
 
                 <div class="space-y-2 mb-8">

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.navbar')
 
 @section('title', 'Shop | Daily Essentials')
 

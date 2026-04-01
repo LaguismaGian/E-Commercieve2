@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable; // ← ADD THIS
+use Laravel\Fortify\TwoFactorAuthenticatable; 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Order;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, TwoFactorAuthenticatable; // ← ADD TwoFactorAuthenticatable
 
