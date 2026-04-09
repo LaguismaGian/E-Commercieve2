@@ -8,7 +8,7 @@
          TOP PAGE HERO
     ════════════════════════════════════════════ --}}
     <section class="relative min-h-[200px] flex flex-col items-center justify-center text-center px-6" 
-             style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('{{ asset('images/bgphoto.png') }}'); background-size: cover; background-position: center;">
+             style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('{{ asset('images/bgphoto2.png') }}'); background-size: cover; background-position: center;">
         <h1 class="font-inria text-white text-4xl md:text-5xl font-bold tracking-tight mb-2">
             Checkout
         </h1>
