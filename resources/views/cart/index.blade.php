@@ -68,12 +68,22 @@
 
         @if($cartItems->count() > 0)
             <div class="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden">
-                
-                
                 <div class="overflow-x-auto">
                     <table class="w-full text-left min-w-[700px]">
                         <thead class="bg-gray-50/50 border-b border-gray-100">
                             <tr>
+                                <th class="p-6 text-center w-16">
+                                    {{-- checkbox --}}
+                                    <label class="relative flex items-center justify-center cursor-pointer group">
+                                        {{-- The real input is hidden using 'sr-only' but still tracks the clicks --}}
+                                        <input type="checkbox" id="select-all" class="peer sr-only" checked>
+                                        
+                                        {{-- orange circle --}}
+                                        <div class="w-5 h-5 rounded-full border-2 border-gray-300 bg-white peer-checked:bg-orange-500 peer-checked:border-orange-500 transition-all duration-200 flex items-center justify-center shadow-sm group-hover:border-orange-400">
+                                        </div>
+                                    </label>
+                                </th>
+                                
                                 <th class="p-6 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Product</th>
                                 <th class="p-6 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-center">Price</th>
                                 <th class="p-6 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-center">Quantity</th>
@@ -85,6 +95,19 @@
                         <tbody class="divide-y divide-gray-50">
                             @foreach($cartItems as $item)
                             <tr class="group hover:bg-gray-50/50 transition-colors">
+                                
+                                <td class="p-6 text-center">
+                                    {{-- checkbox --}}
+                                    <label class="relative flex items-center justify-center cursor-pointer group">
+                                        {{-- Notice 'item-checkbox' is still here so our Javascript can find it! --}}
+                                        <input type="checkbox" value="{{ $item->id }}" data-price="{{ $item->product->price * $item->quantity }}" class="item-checkbox peer sr-only" checked>
+                                        
+                                        {{-- orange circle --}}
+                                        <div class="w-5 h-5 rounded-full border-2 border-gray-300 bg-white peer-checked:bg-orange-500 peer-checked:border-orange-500 transition-all duration-200 flex items-center justify-center shadow-sm group-hover:border-orange-400">
+                                        </div>
+                                    </label>
+                                </td>
+                                
                                 <td class="p-6">
                                     <div class="flex items-center gap-4">
                                         <div class="w-20 h-20 bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 shadow-sm flex-shrink-0">
@@ -94,8 +117,6 @@
                                                 <div class="w-full h-full flex items-center justify-center text-2xl">🕯️</div>
                                             @endif
                                         </div>
-
-                                        {{-- Product Info with Scent Display --}}
                                         <div>
                                             <a href="{{ route('shop.show', $item->product->id) }}" class="font-inria font-bold text-gray-900 text-lg group-hover:text-brand-orange transition-colors">
                                                 {{ $item->product->name }}
@@ -104,8 +125,6 @@
                                                 <span class="text-[10px] text-orange-500 font-bold uppercase tracking-tighter">
                                                     {{ $item->product->category }}
                                                 </span>
-                                                
-                                                {{-- Display the selected scent --}}
                                                 <div class="flex items-center gap-1.5 mt-1">
                                                     <span class="text-[11px] text-gray-400 font-medium uppercase tracking-widest">Scent:</span>
                                                     <span class="text-[11px] text-gray-700 font-bold bg-gray-100 px-2 py-0.5 rounded-full border border-gray-200">
@@ -118,6 +137,7 @@
                                 </td>
                                 <td class="p-6 text-center font-medium text-gray-600">₱{{ number_format($item->product->price, 2) }}</td>
                                 <td class="p-6">
+                                    {{-- RESTORED: Your fully functional Add/Subtract forms! --}}
                                     <div class="flex items-center justify-center gap-3">
                                         <form action="{{ route('cart.update', $item) }}" method="POST">
                                             @csrf @method('PUT')
@@ -134,6 +154,7 @@
                                 </td>
                                 <td class="p-6 text-center font-bold text-gray-900">₱{{ number_format($item->product->price * $item->quantity, 2) }}</td>
                                 <td class="p-6 text-right">
+                                    {{-- RESTORED: Your Delete Form! --}}
                                     <form action="{{ route('cart.remove', $item) }}" method="POST">
                                         @csrf @method('DELETE')
                                         <button type="submit" class="text-gray-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition-colors">
@@ -161,24 +182,21 @@
                 </div>
 
                 <div class="w-full md:w-96 bg-gray-50 rounded-[2rem] p-8 space-y-6 border border-gray-100">
-                    <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-500 font-medium">Subtotal</span>
-                        <span class="font-bold text-gray-900">₱{{ number_format($total, 2) }}</span>
-                    </div>
                     <div class="flex justify-between items-center border-t border-gray-200 pt-4">
-                        <span class="text-lg font-inria font-bold text-gray-900">Total</span>
-                        <span class="text-2xl font-bold text-orange-600">₱{{ number_format($total, 2) }}</span>
+                        <span class="text-lg font-inria font-bold text-gray-900">Selected Total</span>
+                        <span id="dynamic-total" class="text-2xl font-bold text-orange-600">₱{{ number_format($total, 2) }}</span>
                     </div>
-                    <a href="{{ route('checkout.index') }}" class="block w-full bg-slate-900 text-white text-center py-4 rounded-full font-bold shadow-lg hover:bg-orange-500 transition-all active:scale-95 text-xs tracking-[0.2em]">
+                    {{-- Notice this is now a button of type="button", Javascript handles the rest! --}}
+                    <button type="button" id="checkout-btn" class="block w-full bg-slate-900 text-white text-center py-4 rounded-full font-bold shadow-lg hover:bg-orange-500 transition-all active:scale-95 text-xs tracking-[0.2em] disabled:opacity-50 disabled:cursor-not-allowed">
                         PROCEED TO CHECKOUT
-                    </a>
+                    </button>
                 </div>
             </div>
-
         @else
+
             <div class="text-center py-24 bg-gray-50 rounded-[3rem] border border-dashed border-gray-200 mx-auto max-w-3xl">
     <div class="mb-6 opacity-70">
-        {{-- Added w-20, h-20, and mx-auto directly to the SVG --}}
+        
         <svg class="w-32 h-32 mx-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -198,5 +216,61 @@
 </div>
         @endif
     </main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+        const selectAllCheckbox = document.getElementById('select-all');
+        const totalDisplay = document.getElementById('dynamic-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        // Math recalculation
+        function calculateTotal() {
+            let newTotal = 0;
+            let checkedCount = 0;
+
+            itemCheckboxes.forEach(box => {
+                if (box.checked) {
+                    newTotal += parseFloat(box.dataset.price);
+                    checkedCount++;
+                }
+            });
+
+            totalDisplay.innerText = '₱' + newTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            checkoutBtn.disabled = checkedCount === 0;
+            selectAllCheckbox.checked = checkedCount === itemCheckboxes.length && itemCheckboxes.length > 0;
+        }
+
+        itemCheckboxes.forEach(box => box.addEventListener('change', calculateTotal));
+
+        selectAllCheckbox.addEventListener('change', function() {
+            itemCheckboxes.forEach(box => box.checked = selectAllCheckbox.checked);
+            calculateTotal();
+        });
+
+        calculateTotal();
+
+        // THE FIX: Securely submit only the checked items without breaking HTML rules!
+        checkoutBtn.addEventListener('click', function() {
+            // Create a hidden form in memory
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = "{{ route('checkout.index') }}";
+
+            // Find all checked boxes and add them to the hidden form
+            document.querySelectorAll('.item-checkbox:checked').forEach(box => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selected_items[]';
+                input.value = box.value;
+                form.appendChild(input);
+            });
+
+            // Append to body and submit
+            document.body.appendChild(form);
+            form.submit();
+        });
+    });
+</script>
 
 @endsection

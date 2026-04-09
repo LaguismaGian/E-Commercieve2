@@ -49,7 +49,7 @@
                                required 
                                autofocus 
                                autocomplete="name"
-                               placeholder="e.g. Jane Doe"
+                               placeholder="e.g. Kyle Renyer"
                                class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-200 focus:bg-white transition-all text-sm">
                         @error('name')
                             <p class="text-red-500 text-xs mt-2 ml-1">{{ $message }}</p>

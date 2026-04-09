@@ -15,21 +15,32 @@ class CheckoutController extends Controller
     /**
      * Display the checkout page (Shipping Address Form)
      */
-    public function index()
+    public function index(Request $request)
     {
+        // NEW: Grab the selected items from the URL
+        $selectedItems = $request->input('selected_items');
+
+        // NEW: Security check - if they bypassed the cart page
+        if (!$selectedItems || !is_array($selectedItems)) {
+            return redirect()->route('cart.index')->with('error', 'Please select at least one item to checkout.');
+        }
+
+        // NEW: Fetch ONLY the cart items they selected
         $cartItems = CartItem::where('user_id', Auth::id())
+                             ->whereIn('id', $selectedItems)
                              ->with('product')
                              ->get();
 
         if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
+            return redirect()->route('cart.index')->with('error', 'Invalid items selected.');
         }
 
         $total = $cartItems->sum(function ($item) {
             return $item->product->price * $item->quantity;
         });
 
-        return view('checkout.index', compact('cartItems', 'total'));
+        // NEW: We must pass $selectedItems to the view so the form can remember them
+        return view('checkout.index', compact('cartItems', 'total', 'selectedItems'));
     }
 
     /**
@@ -41,13 +52,18 @@ class CheckoutController extends Controller
             'shipping_address' => 'required|string',
             'shipping_city'    => 'required|string',
             'shipping_phone'   => 'required|string',
-            'payment_method'   => 'required|in:cod,gcash'
+            'payment_method'   => 'required|in:cod,gcash',
+            'selected_items'   => 'required|array' // NEW: Validate selected items exist
         ]);
 
-        $cartItems = CartItem::where('user_id', Auth::id())->with('product')->get();
+        // NEW: Fetch ONLY the selected items
+        $cartItems = CartItem::where('user_id', Auth::id())
+                             ->whereIn('id', $request->selected_items)
+                             ->with('product')
+                             ->get();
 
         if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
+            return redirect()->route('cart.index')->with('error', 'Your selected items are invalid!');
         }
 
         $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
@@ -61,6 +77,7 @@ class CheckoutController extends Controller
                 'payment_method' => 'gcash',
                 'total_amount'   => $total,
                 'order_number'   => 'ORD-' . strtoupper(uniqid()),
+                'selected_items' => $request->selected_items, // NEW: Remember selected items in session
             ]]);
 
             return redirect()->route('payment.gcash');
@@ -87,7 +104,7 @@ class CheckoutController extends Controller
                 'total_amount'      => $total,
                 'status'            => 'pending',
                 'payment_method'    => 'cod',
-                'payment_status'    => 'unpaid', // Remains unpaid until delivery
+                'payment_status'    => 'unpaid',
                 'shipping_address'  => $request->shipping_address,
                 'shipping_city'     => $request->shipping_city,
                 'shipping_phone'    => $request->shipping_phone,
@@ -106,12 +123,13 @@ class CheckoutController extends Controller
                 $item->product->decrement('stock', $item->quantity);
             }
 
-            // 3. Clear the Cart
-            CartItem::where('user_id', Auth::id())->delete();
+            // 3. Clear ONLY the checked out items from the Cart (CRITICAL FIX)
+            CartItem::where('user_id', Auth::id())
+                    ->whereIn('id', $request->selected_items)
+                    ->delete();
 
             DB::commit();
 
-            // Redirect straight to order receipt
             return redirect()->route('orders.show', $order)
                              ->with('success', 'Order placed successfully! Please prepare exact cash for delivery.');
 
@@ -132,7 +150,11 @@ class CheckoutController extends Controller
             return redirect()->route('cart.index')->with('error', 'Session expired. Please start over.');
         }
 
-        $cartItems = CartItem::where('user_id', Auth::id())->with('product')->get();
+        // NEW: Fetch ONLY the selected items from the session data
+        $cartItems = CartItem::where('user_id', Auth::id())
+                             ->whereIn('id', $checkoutData['selected_items'])
+                             ->with('product')
+                             ->get();
 
         return view('payment.gcash', compact('checkoutData', 'cartItems'));
     }
@@ -156,7 +178,11 @@ class CheckoutController extends Controller
         DB::beginTransaction();
 
         try {
-            $cartItems = CartItem::where('user_id', Auth::id())->with('product')->get();
+            // NEW: Fetch ONLY the selected items from session
+            $cartItems = CartItem::where('user_id', Auth::id())
+                                 ->whereIn('id', $checkoutData['selected_items'])
+                                 ->with('product')
+                                 ->get();
 
             // Final Stock Check with Row Locking
             foreach ($cartItems as $item) {
@@ -196,8 +222,11 @@ class CheckoutController extends Controller
                 $item->product->decrement('stock', $item->quantity);
             }
 
-            // Cleanup
-            CartItem::where('user_id', Auth::id())->delete();
+            // Cleanup: Delete ONLY checked out items
+            CartItem::where('user_id', Auth::id())
+                    ->whereIn('id', $checkoutData['selected_items'])
+                    ->delete();
+                    
             session()->forget('pending_checkout');
 
             DB::commit(); 

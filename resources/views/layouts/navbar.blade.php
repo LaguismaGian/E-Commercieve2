@@ -32,7 +32,7 @@
 
                 <a href="/" class="flex items-center gap-2 group">
                     <img src="{{ asset('images/logo.png') }}" alt="Daily Essentials Logo" class="w-8 h-8 object-contain group-hover:scale-105 transition-transform">
-                    <span class="font-inria font-bold text-xl tracking-tight hidden sm:block text-gray-900">Daily Essentials</span>
+                    <span class="font-inria font-bold text-xl tracking-tight text-gray-900">Daily Essentials</span>
                 </a>
             </div>
 
@@ -91,17 +91,12 @@
                         @endauth
                     </a>
                       
-                    {{-- Logout Icon (Desktop) --}}
-                    @auth
-                        <a href="#" class="text-gray-400 hover:text-red-500 transition-colors hidden sm:block" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" title="Logout">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M18 15l3-3m0 0-3-3m3 3H9"/>
-                            </svg>
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                            @csrf
-                        </form>
-                   @endauth
+                    {{-- Desktop Logout Button --}}
+                    <button @click="$dispatch('open-logout-modal')" class="hidden sm:block text-gray-400 hover:text-red-500 transition-colors" title="Logout">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M18 15l3-3m0 0-3-3m3 3H9"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -135,7 +130,10 @@
                 @auth
                     <p class="text-sm font-medium text-gray-500">Logged in as <span class="font-bold text-gray-900">{{ Auth::user()->name }}</span></p>
                     <a href="{{ route('profile') }}" class="block w-full text-center bg-gray-50 py-3 rounded-xl font-bold text-sm text-gray-900">My Profile</a>
-                    <button onclick="document.getElementById('logout-form').submit();" class="block w-full text-center bg-red-50 text-red-600 py-3 rounded-xl font-bold text-sm">Logout</button>
+                    {{-- Mobile Logout Button --}}
+                    <button @click="$dispatch('open-logout-modal')" class="block w-full text-center bg-red-50 text-red-600 py-3 rounded-xl font-bold text-sm">
+                        Logout
+                    </button>
                 @else
                     <a href="{{ route('login') }}" class="block w-full text-center bg-brand-orange text-white py-3 rounded-xl font-bold text-sm">Login</a>
                     <a href="{{ route('register') }}" class="block w-full text-center bg-gray-50 text-gray-900 py-3 rounded-xl font-bold text-sm border border-gray-200">Create Account</a>
@@ -192,10 +190,13 @@
                     <div>
                         <h3 class="font-bold text-gray-900 text-[10px] uppercase tracking-widest mb-3 md:text-right">Follow Us</h3>
                         <div class="flex gap-4">
-                            <a href="{{ env('FACEBOOK_URL') }}" target="_blank" class="text-gray-400 hover:text-blue-600 transition-colors">
+                            {{-- Facebook --}}
+                            <a href="https://www.facebook.com/profile.php?id=61571638290459" target="_blank" class="text-gray-400 hover:text-blue-600 transition-colors">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
                             </a>
-                            <a href="#" class="text-gray-400 hover:text-pink-600 transition-colors">
+
+                            {{-- Instagram --}}
+                            <a href="https://www.instagram.com/neil_cutterr?igsh=MWYzZ2oyaWt5azdsNg%3D%3D" class="text-gray-400 hover:text-pink-600 transition-colors">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.058-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c.796 0 1.441.645 1.441 1.44s-.645 1.44-1.441 1.44c-.795 0-1.44-.645-1.44-1.44s.645-1.44 1.44-1.44z"/></svg>
                             </a>
                         </div>
@@ -214,6 +215,42 @@
             </div>
         </div>
     </footer>
+
+    {{-- ==========================================
+     GLOBAL LOGOUT MODAL
+    ========================================== --}}
+    @auth
+        <div x-data="{ open: false }" @open-logout-modal.window="open = true">
+            <template x-teleport="body">
+                <div x-show="open" 
+                     style="display: none;"
+                     class="fixed inset-0 z-[1000] bg-black/40 flex items-center justify-center p-4 w-screen h-screen"
+                     x-transition.opacity>
+                     
+                    <div @click.away="open = false" 
+                         class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-xs text-center"
+                         x-transition>
+                         
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Log Out?</h3>
+                        <p class="text-sm text-gray-500 mb-6">Are you sure you want to leave?</p>
+    
+                        <div class="flex items-center gap-3 justify-center">
+                            <button @click="open = false" class="flex-1 bg-gray-100 text-gray-700 px-4 py-2.5 rounded-xl font-medium hover:bg-gray-200 transition-colors text-sm">
+                                Cancel
+                            </button>
+                            
+                            <form method="POST" action="{{ route('logout') }}" class="flex-1 m-0">
+                                @csrf
+                                <button type="submit" class="w-full bg-red-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-red-600 transition-colors shadow-sm shadow-red-200 text-sm">
+                                    Log Out
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    @endauth
 
 </body>
 </html>

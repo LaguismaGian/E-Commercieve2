@@ -7,7 +7,7 @@
     {{-- Product Details --}}
     <main class="max-w-7xl mx-auto px-6 py-12" 
     x-data="{
-        mainImage: '{{ asset('storage/images/' . $product->image) }}',
+        mainImage: '{{ asset('images/products/' . $product->image) }}',
         quantity: 1,
         selectedScent: 'Rose', {{-- Default scent --}}
         isFavorite: false,
@@ -30,10 +30,10 @@
                 </div>
     
                 <div class="flex gap-4">
-                    <button @click="mainImage = '{{ asset('storage/images/' . $product->image) }}'" 
+                    <button @click="mainImage = '{{ asset('images/products/' . $product->image) }}'" 
                             class="w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all shadow-sm"
-                            :class="mainImage === '{{ asset('storage/images/' . $product->image) }}' ? 'border-orange-500 ring-4 ring-orange-50' : 'border-transparent opacity-60 hover:opacity-100'">
-                        <img src="{{ asset('storage/images/' . $product->image) }}" class="w-full h-full object-cover">
+                            :class="mainImage === '{{ asset('images/products/' . $product->image) }}' ? 'border-orange-500 ring-4 ring-orange-50' : 'border-transparent opacity-60 hover:opacity-100'">
+                        <img src="{{ asset('images/products/' . $product->image) }}" class="w-full h-full object-cover">
                     </button>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                                 <button type="button"
                                         class="w-12 h-12 rounded-full border-2 transition-all hover:scale-110 overflow-hidden mb-2 shadow-sm"
                                         :class="selectedScent === '{{ $scent['name'] }}' ? 'border-orange-500 ring-4 ring-orange-50' : 'border-gray-100'">
-                                    <img src="{{ asset('images/' . $scent['image']) }}" alt="{{ $scent['name'] }}" class="w-full h-full object-cover">
+                                    <img src="{{ asset('images/scents/' . $scent['image']) }}" alt="{{ $scent['name'] }}" class="w-full h-full object-cover">
                                 </button>
                                 <span class="text-[9px] uppercase tracking-wider font-bold text-center leading-tight transition-colors"
                                       :class="selectedScent === '{{ $scent['name'] }}' ? 'text-orange-600' : 'text-gray-400 group-hover:text-gray-600'">
@@ -172,7 +172,7 @@
                                     ? 'bg-orange-600 text-white hover:bg-orange-700 shadow-orange-100' 
                                     : 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none' }}"
                                 {{ $product->stock <= 0 ? 'disabled' : '' }}>
-                                {{ $product->stock > 0 ? 'ADD TO COLLECTION' : 'OUT OF STOCK' }}
+                                {{ $product->stock > 0 ? 'ADD TO CART' : 'OUT OF STOCK' }}
                             </button>
                         </form>
                     @else
