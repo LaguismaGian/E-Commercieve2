@@ -225,7 +225,7 @@ class ProductSeeder extends Seeder
                 'description' => 'A soothing scent for relaxation.',
                 'grams' => '100g',
                 'stock' => 50,
-                'image'     => 'peonyflower.jpg',
+                'image'     => 'rosecandle.jpg',
                 'category'  => 'Flower Candles', 
                 'on_sale'   => false
             ],
