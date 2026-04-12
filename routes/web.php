@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Order;
+use App\Models\User;                               
+use Illuminate\Auth\Events\Verified;               
+use Illuminate\Support\Facades\Auth;               
+use Illuminate\Http\Request;
 // Controllers
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PageController;
@@ -31,6 +35,35 @@ Route::get('/shop/{id}', [ProductController::class, 'show'])->name('shop.show');
 
 // Auth Guest Routes
 Route::get('/login', function () { return view('auth.login'); })->name('login');
+
+
+// cross-deviced email verification
+Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
+    $user = User::findOrFail($id);
+
+    // 1. Check valid signature
+    if (! $request->hasValidSignature()) {
+        abort(403, 'Invalid signature.');
+    }
+
+    // 2. Check valid hash
+    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        abort(403, 'Invalid hash.');
+    }
+
+    // 3. Verify the user
+    if (! $user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+        event(new Verified($user));
+    }
+
+    // 4. Automatically log them in on this new device!
+    Auth::login($user);
+
+    // 5. Redirect to profile/dashboard
+    return redirect('/profile')->with('status', 'Email verified successfully! You are now logged in.');
+
+})->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
 
 
 // AUTHENTICATED USER ROUTES
