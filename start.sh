@@ -2,7 +2,7 @@
 
 echo "Starting deployment script..."
 
-# 1. Clear old cached configs so it forces Laravel to read Render's environment variables
+# 1. Clear old cached configs
 php artisan config:clear
 php artisan cache:clear
 
@@ -12,8 +12,12 @@ php artisan db:seed --force
 php artisan storage:link
 
 # 3. THE PERMISSION FIX: 
-# Give ownership of the files back to the Apache web server AFTER artisan runs
+# Give ownership of the storage and cache to the web server
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# NEW: Create the payments folder (if it doesn't exist) and give it write permissions!
+mkdir -p /var/www/html/public/images/payments
+chown -R www-data:www-data /var/www/html/public/images/payments
 
 echo "Setup complete. Starting Apache server..."
 
