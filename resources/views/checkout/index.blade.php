@@ -93,6 +93,10 @@
                     
                     <form action="{{ route('checkout.store') }}" method="POST" class="space-y-6">
                         @csrf
+
+                        @foreach($selectedItems as $itemId)
+                            <input type="hidden" name="selected_items[]" value="{{ $itemId }}">
+                        @endforeach
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="md:col-span-2">

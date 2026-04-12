@@ -75,13 +75,15 @@
                     </a>
                     
                     {{-- Logout Button --}}
-                    <form method="POST" action="{{ route('logout') }}" class="m-0">
-                        @csrf
-                        <button type="submit" class="bg-slate-900 text-white px-5 py-2.5 rounded-full text-[11px] font-bold hover:bg-brand-orange transition-all shadow-md uppercase tracking-widest active:scale-95">
-                            Logout
-                        </button>
-                    </form>
+                    <button @click="$dispatch('open-logout-modal')" class="bg-slate-900 text-white px-5 py-2.5 rounded-full text-[11px] font-bold hover:bg-brand-orange transition-all shadow-md uppercase tracking-widest active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M18 15l3-3m0 0-3-3m3 3H9"/>
+                        </svg>
+                    </button>
+                    
                 </div>
+
+                
             </div>
 
         </div>
@@ -187,6 +189,40 @@
             </p>
         </div>
     </footer>
+
+    {{-- Logout popup --}}
+    @auth
+        <div x-data="{ open: false }" @open-logout-modal.window="open = true">
+            <template x-teleport="body">
+                <div x-show="open" 
+                     style="display: none;"
+                     class="fixed inset-0 z-[1000] bg-black/40 flex items-center justify-center p-4 w-screen h-screen"
+                     x-transition.opacity>
+                     
+                    <div @click.away="open = false" 
+                         class="bg-white rounded-2xl shadow-xl p-6 w-full max-w-xs text-center"
+                         x-transition>
+                         
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">Log Out?</h3>
+                        <p class="text-sm text-gray-500 mb-6">Are you sure you want to leave?</p>
+    
+                        <div class="flex items-center gap-3 justify-center">
+                            <button @click="open = false" class="flex-1 bg-gray-100 text-gray-700 px-4 py-2.5 rounded-xl font-medium hover:bg-gray-200 transition-colors text-sm">
+                                Cancel
+                            </button>
+                            
+                            <form method="POST" action="{{ route('logout') }}" class="flex-1 m-0">
+                                @csrf
+                                <button type="submit" class="w-full bg-red-500 text-white px-4 py-2.5 rounded-xl font-medium hover:bg-red-600 transition-colors shadow-sm shadow-red-200 text-sm">
+                                    Log Out
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    @endauth
 
 </body>
 </html>

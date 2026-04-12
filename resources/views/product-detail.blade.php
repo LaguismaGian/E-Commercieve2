@@ -30,12 +30,12 @@
                 </div>
     
                 <div class="flex gap-4">
-    <button @click="mainImage = '{{ asset('images/products/' . $product->image) }}'" 
-            class="w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all shadow-sm"
-            :class="mainImage === '{{ asset('images/products/' . $product->image) }}' ? 'border-orange-500 ring-4 ring-orange-50' : 'border-transparent opacity-60 hover:opacity-100'">
-        <img src="{{ asset('images/products/' . $product->image) }}" class="w-full h-full object-cover">
-    </button> 
-</div>
+                    <button @click="mainImage = '{{ asset('images/products/' . $product->image) }}'" 
+                            class="w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all shadow-sm"
+                            :class="mainImage === '{{ asset('images/products/' . $product->image) }}' ? 'border-orange-500 ring-4 ring-orange-50' : 'border-transparent opacity-60 hover:opacity-100'">
+                        <img src="{{ asset('images/products/' . $product->image) }}" class="w-full h-full object-cover">
+                    </button>
+                </div>
             </div>
     
             {{-- Product Info --}}
@@ -172,7 +172,7 @@
                                     ? 'bg-orange-600 text-white hover:bg-orange-700 shadow-orange-100' 
                                     : 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none' }}"
                                 {{ $product->stock <= 0 ? 'disabled' : '' }}>
-                                {{ $product->stock > 0 ? 'ADD TO COLLECTION' : 'OUT OF STOCK' }}
+                                {{ $product->stock > 0 ? 'ADD TO CART' : 'OUT OF STOCK' }}
                             </button>
                         </form>
                     @else

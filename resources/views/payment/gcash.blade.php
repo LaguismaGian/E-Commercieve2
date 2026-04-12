@@ -35,7 +35,7 @@
                 <div class="space-y-2 mb-8">
                     <p class="text-xs font-bold uppercase tracking-widest text-gray-400">GCash Details</p>
                     <p class="text-lg font-bold text-slate-800">0912 345 6789</p>
-                    <p class="text-sm text-gray-500 italic">Daily Essentials - Focus mode: ON</p>
+                    <p class="text-sm text-gray-500 italic">Daily Essentials - Scented Candles</p>
                 </div>
 
                 <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100">
