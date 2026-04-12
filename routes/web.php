@@ -34,8 +34,8 @@ Route::get('/login', function () { return view('auth.login'); })->name('login');
 
 
 // AUTHENTICATED USER ROUTES
-// 'verified' comment ko muna para magamit kahit hindi verified gmail
-Route::middleware(['auth'])->group(function () {
+// 'verified' comment if may error sa verification
+Route::middleware(['auth', 'verified'])->group(function () {
     
     // Profile & Security
     Route::get('/profile', function () { return view('profile'); })->name('profile');
