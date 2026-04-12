@@ -32,3 +32,9 @@ RUN npm run build
 
 # 10. Give the server permission to write to storage (for images/cache)
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# 11. Copy the startup script, make it executable, and run it
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
+CMD ["start.sh"]
