@@ -19,73 +19,74 @@
 >
 
     {{-- ════════════════════════════════════════════
-          ADMIN NAVBAR
-    ════════════════════════════════════════════ --}}
-    <nav class="bg-white border-b border-gray-100 py-4 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        ADMIN NAVBAR (Responsive Optimized)
+     ════════════════════════════════════════════ --}}
+    <nav class="bg-white border-b border-gray-100 py-3 sm:py-4 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
             
             {{-- Logo & Brand --}}
-            <div class="flex items-center gap-2 sm:gap-4">
-
+            <div class="flex items-center gap-2 sm:gap-4 overflow-hidden">
                 {{-- Mobile Menu Toggle --}}
-                <button @click="mobileMenuOpen = true" class="md:hidden p-2 -ml-2 text-gray-400 hover:text-brand-orange transition-colors">
+                <button @click="mobileMenuOpen = true" class="md:hidden p-1.5 text-gray-400 hover:text-brand-orange transition-colors flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </button>
-
-                <img src="{{ asset('images/logo.png') }}" alt="Daily Essentials Logo" class="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0">
-                <h1 class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-slate-900 whitespace-nowrap">Admin Dashboard</h1>
+    
+                <img src="{{ asset('images/logo.png') }}" alt="Daily Essentials Logo" class="w-7 h-7 sm:w-10 sm:h-10 flex-shrink-0">
+                
+                {{-- Title: Shrinks font on tiny screens to prevent overflow --}}
+                <h1 class="font-serif text-lg sm:text-2xl font-bold tracking-tight text-slate-900 truncate whitespace-nowrap">
+                    Admin <span class="hidden xs:inline">Dashboard</span>
+                </h1>
             </div>
-
+    
             {{-- Navigation Links (Desktop Only) --}}
-            <div class="hidden md:flex items-center gap-8 bg-gray-50 px-6 py-2 rounded-full border border-gray-100">
+            <div class="hidden md:flex items-center gap-4 lg:gap-8 bg-gray-50 px-4 lg:px-6 py-2 rounded-full border border-gray-100">
                 <a href="{{ route('admin.dashboard') }}" 
-                   class="text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.dashboard') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
+                   class="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.dashboard') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
                     Overview
                 </a>
                 <a href="{{ route('admin.products.index') }}" 
-                   class="text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.products.*') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
+                   class="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.products.*') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
                     Inventory
                 </a>
                 <a href="{{ route('admin.orders.index') }}" 
-                   class="text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.orders.*') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
+                   class="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.orders.*') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
                     Orders
                 </a>
                 <a href="{{ route('admin.users.index') }}" 
-                   class="text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.users.*') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
+                   class="text-[10px] lg:text-[11px] font-bold uppercase tracking-widest transition-colors {{ request()->routeIs('admin.users.*') ? 'text-brand-orange' : 'text-gray-400 hover:text-gray-900' }}">
                     Customers
                 </a>
             </div>
-
+    
             {{-- User Actions --}}
-            <div class="flex items-center gap-4">
-                <div class="text-right hidden lg:block">
+            <div class="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+                {{-- Admin Name (Hidden on small screens) --}}
+                <div class="text-right hidden xl:block">
                     <p class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Admin</p>
                     <p class="text-sm font-medium text-slate-800">{{ Auth::user()->name }}</p>
                 </div>
                 
-                <div class="flex items-center gap-3">
-                    
-                    {{-- View Store / Cart Icon --}}
-                    <a href="/shop" class="w-10 h-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:text-brand-orange hover:border-orange-100 transition-all shadow-sm" title="View Storefront">
+                <div class="flex items-center gap-2 sm:gap-3">
+                    {{-- View Store Icon --}}
+                    <a href="/shop" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:text-brand-orange hover:border-orange-100 transition-all shadow-sm flex-shrink-0" title="View Storefront">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
                     </a>
                     
-                    {{-- Logout Button --}}
-                    <button @click="$dispatch('open-logout-modal')" class="bg-slate-900 text-white px-5 py-2.5 rounded-full text-[11px] font-bold hover:bg-brand-orange transition-all shadow-md uppercase tracking-widest active:scale-95">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    {{-- Logout Button: Icon only on mobile, text added on desktop --}}
+                    <button @click="$dispatch('open-logout-modal')" 
+                            class="bg-slate-900 text-white p-2.5 sm:px-5 sm:py-2.5 rounded-full text-[11px] font-bold hover:bg-brand-orange transition-all shadow-md uppercase tracking-widest active:scale-95 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M18 15l3-3m0 0-3-3m3 3H9"/>
                         </svg>
+                        <span class="hidden sm:inline">Logout</span>
                     </button>
-                    
                 </div>
-
-                
             </div>
-
         </div>
     </nav>
 
