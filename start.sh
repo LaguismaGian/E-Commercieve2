@@ -15,9 +15,13 @@ php artisan storage:link
 # Give ownership of the storage and cache to the web server
 chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# NEW: Create the payments folder (if it doesn't exist) and give it write permissions!
+# Create the payments folder (if it doesn't exist) and give it write permissions
 mkdir -p /var/www/html/public/images/payments
 chown -R www-data:www-data /var/www/html/public/images/payments
+
+# NEW: Create the products folder (if it doesn't exist) and give it write permissions!
+mkdir -p /var/www/html/public/images/products
+chown -R www-data:www-data /var/www/html/public/images/products
 
 echo "Setup complete. Starting Apache server..."
 
