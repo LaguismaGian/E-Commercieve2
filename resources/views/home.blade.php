@@ -21,7 +21,7 @@
     {{-- ════════════════════════════════════════════
          TOP PAGE HERO
     ════════════════════════════════════════════ --}}
-    <section id="hero" class="relative min-h-[480px] flex items-center justify-center text-center px-6 py-20"
+    <section id="hero" class="relative min-h-[350px] md:min-h-[480px] flex items-center justify-center text-center px-6 py-12 md:py-20"
         style="background-image: url('{{ asset('images/bgphoto2.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
         <div class="relative z-10 max-w-2xl">
             <h1 class="font-inria text-white text-5xl md:text-6xl font-bold leading-tight mb-5">
