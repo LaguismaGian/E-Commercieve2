@@ -37,12 +37,16 @@ class ProductController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('images', 'public');
-            // make unique name to avoid double name
+            // 1. Define the $file variable FIRST!
+            $file = $request->file('image');
+        
+            // 2. Make the unique name
             $filename = time() . '_' . $file->getClientOriginalName();
-            // directly to path
+        
+            // 3. Move it directly to your public path
             $file->move(public_path('images/products'), $filename);
-            //save only filename
+        
+            // 4. Save only the filename to your database array
             $data['image'] = $filename;
         }
 
